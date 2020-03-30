@@ -16,8 +16,7 @@
                 <div style="margin-left: 250px">企业名：<span v-text="tendering.name"></span></div>
               </div>
             </div>
-            <div
-              git remote add origin 远程仓库地址            style="margin-left: 8px;display: flex;flex-direction:column;justify-content: space-around">
+            <div style="margin-left: 8px;display: flex;flex-direction:column;justify-content: space-around">
 
               <div>
                 id:<span v-text="tendering.id"></span>
