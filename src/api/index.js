@@ -14,14 +14,14 @@ export const reqPwdLogin = (username, password,time) => ajax(BASE_URL+'/enterpri
 export const reqSendCode = (phone) => ajax(BASE_URL+'/enterprise/sendCode', [phone],'POST');
 
 //3、获取招标对象
-export const reqTenderingList = (currentPage,pageSize,{query}) =>{return ajax(`${BASE_URL}/tendering/${currentPage}/${pageSize}`,{query},'GET','application/x-www-form-urlencoded')};
+export const reqTenderingList = (currentPage,pageSize,{query}) =>{return ajax(`${BASE_URL}/tendering/${currentPage}/${pageSize}`,{query},'POST')};
 //4、修改用户信息
 export const reqModifyEnterprise = (id,name,address,phone,certificates) =>{return ajax(`${BASE_URL}/enterprise/modify`,{id,name,address,phone,certificates},'PUT')};
 //5、插入招标信息4
 export const reqInsertTendering= (title,content) =>{return ajax(`${BASE_URL}/tendering/insert`,{title,content},'POST')};
 //6、获取竞标对象
-export const reqBidsList = (currentPage,pageSize,{query}) =>{return ajax(`${BASE_URL}/bid/${currentPage}/${pageSize}`,{query},'GET','application/x-www-form-urlencoded')};
-//7、删除招标信息
+export const reqBidsList = (currentPage,pageSize,{query}) =>{return ajax(`${BASE_URL}/bid/${currentPage}/${pageSize}`,{query},'POST')};
+//7、删除招标信息tebi
 export const reqDeleteTendering= (tid) =>{return ajax(`${BASE_URL}/tendering/${tid}`,tid,'POST')};
 
 
