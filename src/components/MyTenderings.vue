@@ -1,7 +1,21 @@
 <template>
   <el-container style="height: 86vh">
     <el-header>
-      <el-input v-model="tendering.title" placeholder="请输入标题"/>
+      <div style="padding: 10px;display: flex;">
+        <el-select v-model="tendering.status" clearable placeholder="请选择审核状态" @change="getList()">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-input
+          prefix-icon="el-icon-search"
+          v-model="tendering.title"
+          placeholder="请输入标题"
+          @keyup.native="getList()"/>
+      </div>
     </el-header>
     <el-main>
       <div>
@@ -18,7 +32,7 @@
             </div>
             <div
               style="margin-left: 8px;display: flex;flex-direction:column;justify-content: space-around">
-              <span v-if="tendering.status">已审核</span>
+              <span v-if="tendering.status==='1'">已审核</span>
               <span v-else>未审核</span>
               <div>
                 id:<span v-text="tendering.id"/>
@@ -44,10 +58,17 @@
         pageSize: 20,
         tenderings: [],
         tendering: {
-          id: 0,
+          e_id: 0,
           title: null,
           status: null
-        }
+        },
+        options: [{
+          value: '1',
+          label: '已审核'
+        }, {
+          value: '0',
+          label: '未审核'
+        }],
       }
     }, methods: {
       deleteTendering(id) {
@@ -84,8 +105,7 @@
       }
     },
     async created() {
-      this.tendering.id = global.user.id;
-      console.log(this.tendering.id);
+      this.tendering.e_id = global.user.id;
       let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
       if (result.code === 200) {
         this.tenderings = result.data.records;

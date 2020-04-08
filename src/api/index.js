@@ -18,7 +18,7 @@ export const reqTenderingList = (currentPage,pageSize,data) =>{return ajax(`${BA
 //4、修改用户信息
 export const reqModifyEnterprise = (id,name,address,phone,certificates) =>{return ajax(`${BASE_URL}/enterprise/modify`,{id,name,address,phone,certificates},'PUT')};
 //5、插入招标信息4
-export const reqInsertTendering= (title,content) =>{return ajax(`${BASE_URL}/tendering/insert`,{title,content},'POST')};
+export const reqInsertTendering= (data) =>{return ajax(`${BASE_URL}/tendering/insert`,data,'POST')};
 //6、获取竞标对象
 export const reqBidsList = (currentPage,pageSize,{query}) =>{return ajax(`${BASE_URL}/bid/${currentPage}/${pageSize}`,{query},'POST')};
 //7、删除招标信息tebi
