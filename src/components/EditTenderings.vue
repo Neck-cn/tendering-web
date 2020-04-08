@@ -124,8 +124,6 @@
     },
     methods: {
       addTendering(tendering) {
-        this.tendering.start_time = this.time[0];
-        this.tendering.end_time = this.time[1];
         this.$refs[tendering].validate(async (valid) => {
             if (valid) {
               let result = await reqInsertTendering({
@@ -153,9 +151,13 @@
         );
       },
       syncTime() {
-        //todo
-        this.tendering.start_time = this.time[0];
-        this.tendering.end_time = this.time[1];
+        if (this.time !== null) {
+          this.tendering.start_time = this.time[0];
+          this.tendering.end_time = this.time[1];
+        } else {
+          this.tendering.start_time = null;
+          this.tendering.end_time = null;
+        }
       },
       // 富文本图片上传前
       beforeUpload() {

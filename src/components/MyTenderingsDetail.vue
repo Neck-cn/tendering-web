@@ -37,7 +37,6 @@
       }
     }, created() {
       this.tendering = this.$route.query.tendering;
-      this.my
     }
   }
 </script>

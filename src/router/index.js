@@ -45,7 +45,6 @@ export default new Router({
           component: MyBids,
           meta: {keepAlive: true}
         },
-
         {
           path: '/My/TenderingsDetail',
           name: 'MyTenderingsDetail',

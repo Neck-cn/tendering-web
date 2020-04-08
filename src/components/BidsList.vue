@@ -30,15 +30,15 @@
             <el-carousel v-if="item.news_img&&item.news_img.length!==0" height="140px"
                          style="flex: 2;margin-right: 8px">
               <el-carousel-item v-for="pic in item.news_img" :key="pic">
-                <el-image lazy :src="pic" fit="contain"></el-image>
+                <el-image lazy :src="pic" fit="contain"/>
               </el-carousel-item>
             </el-carousel>
             <div style="display: flex;flex-direction: column;justify-content: space-between;flex:5">
               <span style="font-family: 'Microsoft YaHei',serif;font-size: 25px;font-weight: 800"
-                    v-text="item.news_title"></span>
+                    v-text="item.news_title"/>
               <div style="display: flex;flex-direction: row;justify-content: space-between;margin-top: 8px">
-                <span v-text="item.username"></span>
-                <span v-text="formatDate(item.news_time)"></span>
+                <span v-text="item.username"/>
+                <span v-text="formatDate(item.news_time)"/>
               </div>
             </div>
             <div v-if="isMyNews"
@@ -46,15 +46,15 @@
               <span v-if="item.news_status">已审核</span>
               <span v-else>未审核</span>
               <div>
-                id:<span v-text="item.id"></span>
+                id:<span v-text="item.id"/>
               </div>
-              <span v-text="item.news_category"></span>
+              <span v-text="item.news_category"/>
               <el-button type="danger" v-if="isMyNews" @click.stop="deleteNews(item.id,index)">删除</el-button>
             </div>
           </div>
         </el-card>
       </div>
-      <el-backtop target=".main"></el-backtop>
+      <el-backtop target=".main"/>
       <div style="position: fixed;right: 42px;bottom:100px;width: 40px;height: 40px;
       color: #1989fa;background-color:white;line-height: 40px;text-align: center;
       box-shadow: 0 0 6px rgba(0,0,0, .12);border-radius:50%;cursor:pointer;"
