@@ -14,7 +14,7 @@ export const reqPwdLogin = (username, password,time) => ajax(BASE_URL+'/enterpri
 export const reqSendCode = (phone) => ajax(BASE_URL+'/enterprise/sendCode', [phone],'POST');
 
 //3、获取招标对象
-export const reqTenderingList = (currentPage,pageSize,{query}) =>{return ajax(`${BASE_URL}/tendering/${currentPage}/${pageSize}`,{query},'POST')};
+export const reqTenderingList = (currentPage,pageSize,data) =>{return ajax(`${BASE_URL}/tendering/${currentPage}/${pageSize}`,data,'POST')};
 //4、修改用户信息
 export const reqModifyEnterprise = (id,name,address,phone,certificates) =>{return ajax(`${BASE_URL}/enterprise/modify`,{id,name,address,phone,certificates},'PUT')};
 //5、插入招标信息4

@@ -1,14 +1,13 @@
 <template>
   <el-main>
-    <el-scrollbar style="height: 100%">
+    <el-scrollbar style="height: 80vh">
       <el-form :model="tendering" ref='tendering' :rules="Rules">
+        <el-form-item prop="title">
+          <el-input placeholder="请输入文章标题" v-model="tendering.title"/>
+        </el-form-item>
         <div style="display: flex;justify-content: space-between;align-items: center">
-
           <el-button type="primary" @click="addTendering('tendering')">提交</el-button>
         </div>
-        <el-form-item prop="title">
-          <el-input style="" placeholder="请输入文章标题" v-model="tendering.title"></el-input>
-        </el-form-item>
         <el-form-item prop="content">
           <!-- 图片上传组件辅助-->
           <el-upload
@@ -115,7 +114,6 @@
               } else {
                 this.$message.error("哎呀，出错了！");
               }
-
             }
           }
         );
@@ -151,8 +149,6 @@
         this.quillUpdateImg = false;
         this.$message.error('图片插入失败')
       }
-    }, created() {
-
     }
   }
 </script>

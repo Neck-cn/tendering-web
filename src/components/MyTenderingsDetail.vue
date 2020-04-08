@@ -1,14 +1,13 @@
 <template>
-  <el-container>
+  <el-container style="height: 86vh">
     <el-header style="padding-top: 20px;">
       <el-page-header @back="goBack" content="详情页面">
       </el-page-header>
     </el-header>
     <el-main class="main">
       <el-card shadow="never" style="margin-bottom: 30px;">
-        <h1 v-text="tendering.title"></h1>
+        <h1 v-text="tendering.title"/>
         <div v-html="tendering.content"></div>
-
       </el-card>
     </el-main>
   </el-container>

@@ -2,20 +2,21 @@
   <el-main>
     <el-card v-loading="loading">
       <div>
-        用户名：<span v-text="user.username"></span>
+        用户名：<span v-text="user.username"/>
       </div>
       <div>
-        企业全称：<span v-text="user.name"></span>
+        企业全称：<span v-text="user.name"/>
       </div>
       <div>
-        地址：<span v-text="user.address"></span>
+        地址：<span v-text="user.address"/>
       </div>
       <div>
-        手机号：<span v-text="user.phone"></span>
+        手机号：<span v-text="user.phone"/>
       </div>
       <div>
-        企业经营许可证：<el-image style="width: 100px; height: 100px"
-        :src="user.certificates"></el-image>
+        企业经营许可证：
+        <el-image style="width: 100px; height: 100px"
+                  :src="user.certificates"/>
       </div>
       <el-button type="primary" style="width: 100%;margin-top: 18px" round
                  @click="updateClick">修改信息
@@ -25,14 +26,14 @@
       <el-form :model="tempUser" ref="tempUser" :rules="Rules">
 
         <el-form-item label="企业全称" prop="name">
-          <el-input v-model="tempUser.name"></el-input>
+          <el-input v-model="tempUser.name"/>
         </el-form-item>
         <el-form-item label="地址" prop="address">
-          <el-input v-model="tempUser.address"></el-input>
+          <el-input v-model="tempUser.address"/>
         </el-form-item>
         <el-form-item label="手机号" prop="phone">
-        <el-input v-model="tempUser.phone"></el-input>
-      </el-form-item>
+          <el-input v-model="tempUser.phone"/>
+        </el-form-item>
         <el-form-item label="企业经营许可证" prop="certificates">
           <el-upload
             class="avatar-uploader"
@@ -40,7 +41,7 @@
             :show-file-list="false"
             :on-success="handleAvatarSuccess">
             <el-image v-if="tempUser.certificates" :src="tempUser.certificates" class="avatar"/>
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
         </el-form-item>
 
@@ -75,7 +76,7 @@
         loading: false,
         dialogFormVisible: false,
         user: {
-          id:"",
+          id: "",
           username: "",
           password: "",
           name: "",//企业全称
@@ -86,13 +87,12 @@
 
         },
         tempUser: {
-          id:"",
+          id: "",
           username: "",
           password: "",
           name: "",//企业全称
           address: "",
           phone: "",
-
           certificates: "",
         },
         Rules: {
@@ -114,11 +114,11 @@
         this.dialogFormVisible = true;
       },
       updateInfo(tempUser) {
-        this.$refs[tempUser].validate(async(valid) => {
+        this.$refs[tempUser].validate(async (valid) => {
           if (valid) {
-            this.tempUser.id=this.user.id;
-            let result= await reqModifyEnterprise(this.tempUser.id,this.tempUser.name,this.tempUser.address,this.tempUser.phone,this.tempUser.certificates);
-            if(result.code===200){
+            this.tempUser.id = this.user.id;
+            let result = await reqModifyEnterprise(this.tempUser.id, this.tempUser.name, this.tempUser.address, this.tempUser.phone, this.tempUser.certificates);
+            if (result.code === 200) {
               this.$message({
                 type: "success",
                 message: "修改成功！",
@@ -126,18 +126,16 @@
               this.user = this.tempUser;
               this.dialogFormVisible = false;
 
-            }else{
-
+            } else {
               this.$message.error("哎呀，出错啦！");
             }
-
           }
         });
       }, handleAvatarSuccess(res) {
-        this.tempUser.head = res.url;
+        this.tempUser.certificates = res.data;
       }
     }, created() {
-      this.user = this.Variable.user;
+      this.user = global.user;
     }
   }
 </script>

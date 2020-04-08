@@ -7,46 +7,46 @@
         router>
         <div class="User">
           <el-image v-if="!isLogin"
-            style="width: 100px; height: 100px;border-radius: 50%"
-            :src="user.head"></el-image>
+                    style="width: 100px; height: 100px;border-radius: 50%"
+                    :src="user.head"/>
           <el-image v-else
                     style="width: 100px; height: 100px;border-radius: 50%"
-                    :src="user1.head"></el-image>
+                    :src="user1.head"/>
           <div v-if="!isLogin"
                style="margin-top:5px;font-size: 14px;display: flex; justify-content:center;width: 100%">
             <router-link to="/My/Login">登录</router-link>
             <router-link to="/My/Register" style="padding-left: 10px">注册</router-link>
           </div>
-          <span style="margin-top: 5px" v-else v-text="user.name"></span>
+          <span style="margin-top: 5px" v-else v-text="user.name"/>
         </div>
         <div v-if="isLogin">
           <el-menu-item index="/My/UserInfo">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-menu"/>
             <span slot="title">个人信息</span>
           </el-menu-item>
-          <el-menu-item  index="/My/EditTenderings">
-            <i class="el-icon-menu"></i>
+          <el-menu-item index="/My/EditTenderings">
+            <i class="el-icon-menu"/>
             <span slot="title">发布招标信息</span>
           </el-menu-item>
-          <el-menu-item  index="/My/MyTenderings">
-            <i class="el-icon-menu"></i>
+          <el-menu-item index="/My/MyTenderings">
+            <i class="el-icon-menu"/>
             <span slot="title">查看我的招标信息</span>
           </el-menu-item>
-          <el-menu-item  index="/My/MyBids">
-            <i class="el-icon-menu"></i>
+          <el-menu-item index="/My/MyBids">
+            <i class="el-icon-menu"/>
             <span slot="title">查看我的竞标信息</span>
           </el-menu-item>
           <el-menu-item @click="logout">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-menu"/>
             <span slot="title">注销</span>
           </el-menu-item>
         </div>
       </el-menu>
     </el-aside>
     <keep-alive>
-      <router-view v-if="$route.meta.keepAlive"></router-view>
+      <router-view v-if="$route.meta.keepAlive"/>
     </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <router-view v-if="!$route.meta.keepAlive"/>
   </el-container>
 </template>
 
@@ -65,8 +65,8 @@
         menu: "",
         active: "/My/UserInfo",
         newsOk: {},
-        username:'',
-        password:'',
+        username: '',
+        password: '',
       }
     },
     methods: {
@@ -78,54 +78,21 @@
         }).then(() => {
 
           this.Variable.user = null;
-            this.$cookies.remove("username");
-            this.$cookies.remove("password");
-            this.$message({
-              type: 'success',
-              message: '注销成功!'
-            });
-            this.$router.replace("/black");
+          this.$cookies.remove("username");
+          this.$cookies.remove("password");
+          this.$message({
+            type: 'success',
+            message: '注销成功!'
+          });
+          this.$router.replace("/black");
 
         })
       },
       headerSelect(key) {
         this.isNews = key === 'news';
       },
-      changeFixed(clientHeight) { //动态修改样式
-        this.$refs.homePage.$el.style.height = clientHeight - 80 + 'px';
-        let padding = 0;
-        if (this.isLogin) {
-          if (this.Variable.user.category) {
-            padding = clientHeight - 550;
-          } else {
-            padding = clientHeight - 430;
-          }
-        } else {
-          padding = clientHeight - 260;
-        }
-        if (padding < 0)
-          padding = 0;
-        this.menu = "margin-top:1px;padding-bottom:" + padding + "px";
-      }
-    },
-    mounted() {
-
-      if (this.isLogin)
-        this.$router.replace("/My/UserInfo");
-      else
-        this.$router.replace("/My/Register");
-      // 获取浏览器可视区域高度
-      this.clientHeight = `${document.documentElement.clientHeight}`;
-      const that = this;
-      window.onresize = function temp() {
-        that.clientHeight = `${document.documentElement.clientHeight}`;
-      };
     },
     watch: {
-      // 如果 `clientHeight` 发生改变，这个函数就会运行
-      clientHeight: function () {
-        this.changeFixed(this.clientHeight)
-      },
       newsOk: {
         handler(val) {
           if (val.ok === true) {
@@ -137,9 +104,8 @@
       }
     },
     created() {
-
-      if (this.Variable.user != null) {
-        this.user = this.Variable.user;
+      if (global.user != null) {
+        this.user = global.user;
         this.isLogin = true;
       }
     }

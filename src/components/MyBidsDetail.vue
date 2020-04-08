@@ -6,8 +6,8 @@
     </el-header>
     <el-main class="main">
       <el-card shadow="never" style="margin-bottom: 30px;">
-        <h1 v-text="bid.name"></h1>
-        <div v-html="bid.content"></div>
+        <h1 v-text="bid.name"/>
+        <div v-html="bid.content"/>
       </el-card>
     </el-main>
   </el-container>
@@ -27,7 +27,6 @@
           status: "",//招标状态
           time: "",
           title: "",
-
           src:"",
           name:"",
         },
@@ -39,7 +38,6 @@
       }
     }, created() {
       this.bid = this.$route.query.bid;
-
     }
   }
 </script>
