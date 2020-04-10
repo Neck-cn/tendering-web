@@ -84,7 +84,7 @@
     data() {
       return {
         quillUpdateImg: false,
-        url: this.Variable.baseURL + "/upload",
+        url: global.baseURL + "/upload",
         Rules: {
           title: [{required: true, message: '标题不能为空', trigger: ["blur"]}],
           content: [{required: true, message: '内容不能为空', trigger: ["blur"]}],
@@ -141,7 +141,6 @@
                 });
                 this.tendering.title = "";
                 this.tendering.content = "";
-                this.Variable.ok.ok = true;
                 this.$router.replace("/My/MyTenderings");
               } else {
                 this.$message.error("哎呀，出错了！");

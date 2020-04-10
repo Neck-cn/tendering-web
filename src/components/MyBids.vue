@@ -1,20 +1,41 @@
 <template>
-  <el-container ref="homePage">
-
+  <el-container style="height: 86vh">
+    <el-header>
+      <div style="padding: 10px;display: flex;">
+        <el-input
+          prefix-icon="el-icon-search"
+          v-model="bid.t_title"
+          placeholder="请输入招标项目"
+          @keyup.native="getList()"/>
+      </div>
+    </el-header>
     <el-main>
-      <ul>
-        <li v-for="(bid,index) in bids" :key="index">
-          <div @click="bidsDetail(bid)">{{bid.name}}</div>
-        </li>
-      </ul>
-
+      <div>
+        <el-card shadow="hover" v-for="(bid,index) in bids" :key="index"
+                 style="margin-bottom: 4px;cursor: pointer">
+          <div style="display: flex;" @click="bidsDetail(bid)">
+            <div style="display: flex;flex-direction: column;justify-content: space-between;flex:5">
+              <span style="font-family: 'Microsoft YaHei',serif;font-size: 25px;font-weight: 800"
+                    v-text="bid.content"/>
+              <div style="display: flex;flex-direction: row;margin-top: 8px">
+                <div>招标项目：<span v-text="bid.t_title"/></div>
+              </div>
+            </div>
+            <div
+              style="margin-left: 8px;display: flex;flex-direction:column;justify-content: space-around">
+              <span>招标书</span>
+              <el-button type="danger" @click.stop="deleteBid(bid.id)">放弃竞标</el-button>
+            </div>
+          </div>
+        </el-card>
+      </div>
     </el-main>
 
   </el-container>
 </template>
 
 <script>
-  import {reqBidsList} from "../api";
+  import {reqBidsList, reqDeleteBid} from "../api";
 
   export default {
     name: "MyBids",
@@ -24,58 +45,53 @@
         pageSize: 20,
         bids: [],
         clientHeight: '',
-        menu:"margin-top: 1px;",
-        categoryOk:false
+        categoryOk: false,
+        bid: {
+          e_id: 0,
+          e_name: '',
+          t_title: ''
+        }
       }
     }, methods: {
       bidsDetail(bid) {
-
         this.$router.push({name: 'MyBidsDetail', query: {bid: bid}})
-
       },
-
-      selectCategory(key) {
-        this.$router.replace({name: 'NewsList', query: {category: key}});
-      },
-      changeFixed(clientHeight) { //动态修改样式
-        this.$refs.homePage.$el.style.height = clientHeight - 80 + 'px';
-        if(this.categoryOk) {
-          let padding = clientHeight - 70 - this.categorys.length * 60;
-          if (padding < 0)
-            padding = 0;
-          this.menu = "margin-top:1px;padding-bottom:" + padding + 'px';
+      async getList() {
+        let result = await reqBidsList(this.currentPage, this.pageSize, this.bid);
+        if (result.code === 200) {
+          this.bids = result.data.records;
+        } else {
+          this.$message.error("哎呀，出错了！");
         }
-      }
-    }, mounted() {
-      // 获取浏览器可视区域高度
-      this.clientHeight = `${document.documentElement.clientHeight}`;
-      const that = this;
-      window.onresize = function temp() {
-        that.clientHeight = `${document.documentElement.clientHeight}`;
-      };
+      },
+      deleteBid(id) {
+        this.$confirm('确定要删除吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async () => {
+          let result = await reqDeleteBid(id);
+          if (result.code === 200) {
+            this.$message({
+              type: 'success',
+              message: "删除成功！"
+            });
+            this.$router.replace("/My/MyBids");
+          } else {
+            this.$message.error("哎呀，出错了！")
+          }
+        })
+      },
     },
-    watch: {
-      // 如果 `clientHeight` 发生改变，这个函数就会运行
-      clientHeight: function () {
-        this.changeFixed(this.clientHeight)
-      },categorys:function () {
-        this.categoryOk=true;
-        let padding=this.clientHeight-70-this.categorys.length*60;
-        if(padding<0)
-          padding=0;
-        this.menu="margin-top:1px;padding-bottom:"+padding+'px';
-      }
-    }, async created() {
-      let query = "";
-      let result = await reqBidsList(this.currentPage, this.pageSize, {query});
+    async created() {
+      this.bid.e_id = global.user.id;
+      let result = await reqBidsList(this.currentPage, this.pageSize, this.bid);
       if (result.code === 200) {
         this.bids = result.data.records;
-
       } else {
         this.$message.error("哎呀，出错了！");
       }
     }
-
   }
 </script>
 

@@ -34,9 +34,6 @@
               style="margin-left: 8px;display: flex;flex-direction:column;justify-content: space-around">
               <span v-if="tendering.status==='1'">已审核</span>
               <span v-else>未审核</span>
-              <div>
-                id:<span v-text="tendering.id"/>
-              </div>
               <el-button type="danger" @click.stop="deleteTendering(tendering.id)">删除</el-button>
             </div>
           </div>
@@ -48,7 +45,7 @@
 </template>
 
 <script>
-  import {reqDeleteTendering, reqTenderingList} from "../api";
+  import {reqDeleteTendering, reqTenderingInfo, reqTenderingList} from "../api";
 
   export default {
     name: "MyTenderings",

@@ -3,8 +3,7 @@
 函数的返回值: promise对象
  */
 import ajax from './ajax'
-const BASE_URL = 'http://localhost:8000'
-//const BASE_URL = '/api'
+const BASE_URL = 'http://134.175.99.101:8000';
 //0、注册
 
 export const reqRegister = (username, password,phone,name,address,certificates,code) => ajax(BASE_URL+'/enterprise/register', {username, password,phone,name,address,certificates,code}, 'POST')
@@ -20,9 +19,13 @@ export const reqModifyEnterprise = (id,name,address,phone,certificates) =>{retur
 //5、插入招标信息4
 export const reqInsertTendering= (data) =>{return ajax(`${BASE_URL}/tendering/insert`,data,'POST')};
 //6、获取竞标对象
-export const reqBidsList = (currentPage,pageSize,{query}) =>{return ajax(`${BASE_URL}/bid/${currentPage}/${pageSize}`,{query},'POST')};
+export const reqBidsList = (currentPage,pageSize,data) =>{return ajax(`${BASE_URL}/bid/${currentPage}/${pageSize}`,data,'POST')};
 //7、删除招标信息tebi
 export const reqDeleteTendering= (tid) =>{return ajax(`${BASE_URL}/tendering/${tid}`,tid,'POST')};
+
+export const reqDeleteBid= (bid) =>{return ajax(`${BASE_URL}/bid/${bid}`,bid,'POST')};
+
+export const reqTenderingInfo= (tid) =>{return ajax(`${BASE_URL}/tendering/${tid}`,tid,'GET')};
 
 
 

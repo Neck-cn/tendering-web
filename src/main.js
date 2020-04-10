@@ -7,14 +7,12 @@ import VueResource from 'vue-resource'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import qs from 'qs'
-import globalVariable from './js/global_variable'
 import formatDate from './js/formatDate'
 import VueCookies from 'vue-cookies'
 
 Vue.use(VueCookies);
 Vue.prototype.$qs = qs;
 Vue.prototype.formatDate = formatDate;
-Vue.prototype.Variable = globalVariable;
 Vue.use(ElementUI);
 Vue.use(VueResource);
 

@@ -63,9 +63,6 @@
         isLogin: false,
         clientHeight: '',
         active: "/My/UserInfo",
-        newsOk: {},
-        username: '',
-        password: '',
       }
     },
     methods: {
@@ -75,32 +72,17 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-
-          this.Variable.user = null;
-          this.$cookies.remove("username");
-          this.$cookies.remove("password");
+          global.user=null;
           this.$message({
             type: 'success',
             message: '注销成功!'
           });
           this.$router.replace("/black");
-
         })
       },
       headerSelect(key) {
         this.isNews = key === 'news';
       },
-    },
-    watch: {
-      newsOk: {
-        handler(val) {
-          if (val.ok === true) {
-            this.active = "/My/MyNews?my=1";
-            this.Variable.ok.ok = false;
-          }
-        },
-        deep: true
-      }
     },
     created() {
       if (global.user != null) {

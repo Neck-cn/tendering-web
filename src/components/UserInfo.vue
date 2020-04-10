@@ -72,7 +72,7 @@
         }
       };
       return {
-        imgUpload: this.Variable.baseURL + "/upload",
+        imgUpload: global.BASE_URL + "/upload",
         loading: false,
         dialogFormVisible: false,
         user: {
@@ -105,7 +105,6 @@
           password: [{min: 9, message: "密码长度必须大于等于九位"}],
           cpassword: [{validator: validatePass, trigger: 'blur'}]
         },
-        url: this.Variable.baseURL + "upload/img",
       }
     }, methods: {
       updateClick() {
