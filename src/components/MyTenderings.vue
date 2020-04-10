@@ -45,8 +45,8 @@
 </template>
 
 <script>
-  import {reqDeleteTendering, reqTenderingInfo, reqTenderingList} from "../api";
-
+  import {reqDeleteTendering, reqTenderingList} from "../api";
+  import global from '../global/global';
   export default {
     name: "MyTenderings",
     data() {

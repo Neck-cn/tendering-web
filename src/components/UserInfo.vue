@@ -56,8 +56,8 @@
 </template>
 
 <script>
-
   import {reqModifyEnterprise} from "../api";
+  import global from '../global/global';
 
   export default {
     name: "UserInfo",

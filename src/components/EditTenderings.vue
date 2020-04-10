@@ -62,6 +62,7 @@
 
   import {quillEditor} from 'vue-quill-editor'
   import {reqInsertTendering} from "../api";
+  import global from '../global/global';
 
   const toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -80,11 +81,11 @@
     ['clean']                                         // remove formatting button
   ];
   export default {
-    name: "EditNews",
+    name: "EditTendering",
     data() {
       return {
         quillUpdateImg: false,
-        url: global.baseUrl + "/upload",
+        url: global.baseURL + "/upload",
         Rules: {
           title: [{required: true, message: '标题不能为空', trigger: ["blur"]}],
           content: [{required: true, message: '内容不能为空', trigger: ["blur"]}],

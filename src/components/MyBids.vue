@@ -36,7 +36,7 @@
 
 <script>
   import {reqBidsList, reqDeleteBid} from "../api";
-
+  import global from '../global/global';
   export default {
     name: "MyBids",
     data() {

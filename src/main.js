@@ -6,13 +6,15 @@ import router from './router'
 import VueResource from 'vue-resource'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
-import qs from 'qs'
-import formatDate from './js/formatDate'
+// import qs from 'qs'
+import formatDate from './global/formatDate'
 import VueCookies from 'vue-cookies'
+import global from './global/global'
 
 Vue.use(VueCookies);
-Vue.prototype.$qs = qs;
+// Vue.prototype.$qs = qs;
 Vue.prototype.formatDate = formatDate;
+Vue.prototype.global=global;
 Vue.use(ElementUI);
 Vue.use(VueResource);
 

@@ -18,6 +18,7 @@
 
 <script>
   import {reqPwdLogin} from "../api";
+  import global from '../global/global';
 
   export default {
     name: "Login",

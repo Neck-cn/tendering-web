@@ -51,6 +51,7 @@
 </template>
 
 <script>
+  import global from '../global/global';
   export default {
     name: "my",
     data() {
