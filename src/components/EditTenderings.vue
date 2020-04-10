@@ -84,7 +84,7 @@
     data() {
       return {
         quillUpdateImg: false,
-        url: global.baseURL + "/upload",
+        url: global.baseUrl + "/upload",
         Rules: {
           title: [{required: true, message: '标题不能为空', trigger: ["blur"]}],
           content: [{required: true, message: '内容不能为空', trigger: ["blur"]}],
@@ -133,6 +133,7 @@
                 'content': this.tendering.content,
                 'start_time': this.tendering.start_time,
                 'end_time': this.tendering.end_time,
+                'src': this.tendering.src
               });
               if (result.code === 200 && result.data === 1) {
                 this.$message({

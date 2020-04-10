@@ -7,7 +7,8 @@
     <el-main class="main">
       <el-card shadow="never" style="margin-bottom: 30px;">
         <h1 v-text="tendering.title"/>
-        <div v-html="tendering.content"></div>
+        <div v-html="tendering.content"/>
+        <el-link type="primary" :href="tendering.src">招标书链接</el-link>
       </el-card>
     </el-main>
   </el-container>
