@@ -36,27 +36,25 @@
         pageSize: 20,
         tenderings: [],
         clientHeight: '',
-        categoryOk: false
+        categoryOk: false,
+        tendering: {
+          status: 1
+        }
       }
     }, methods: {
       tenderingsDetail(tendering) {
-
         this.$router.push({name: 'TenderingsDetail', query: {tendering: tendering}})
-
       },
       async getList() {
-        let query = "";
-        let result = await reqTenderingList(this.currentPage, this.pageSize, {query});
+        let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
         if (result.code === 200) {
           this.tenderings = result.data;
-
         } else {
           this.$message.error("哎呀，出错了！");
         }
       },
     }, async created() {
-      let query = "";
-      let result = await reqTenderingList(this.currentPage, this.pageSize, {query});
+      let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
       if (result.code === 200) {
         this.tenderings = result.data.records;
       } else {

@@ -23,7 +23,7 @@
             </div>
             <div
               style="margin-left: 8px;display: flex;flex-direction:column;justify-content: space-around">
-              <span>招标书</span>
+              <el-link type="primary" :href="bid.src">招标书</el-link>
               <el-button type="danger" @click.stop="deleteBid(bid.id)">放弃竞标</el-button>
             </div>
           </div>
