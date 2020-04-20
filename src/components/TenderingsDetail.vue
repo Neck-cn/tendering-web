@@ -14,12 +14,38 @@
         <h1>参与竞标公司</h1>
         <h4 v-for="(bid,index) in bids" :key="index">· <span v-text="bid.e_name"/></h4>
       </el-card>
+      <div style="padding:1rem;background-color:#3a8ee6;position: fixed;bottom: 3rem;right: 10rem;z-index: 9999;"
+           @click="dialogFormVisible = true">
+        发起<br>竞标
+      </div>
+      <el-dialog title="发起竞标" :visible.sync="dialogFormVisible">
+        <el-form :model="bid">
+          <el-form-item label="竞标内容" prop="content">
+            <el-input v-model="bid.content" autocomplete="off"/>
+          </el-form-item>
+          <el-form-item prop="src">
+            <el-upload
+              :action="url"
+              :on-success="uploadFileSuccess"
+              :on-exceed="handleExceed"
+              :on-remove="handleRemove"
+              :limit="1">
+              <el-button type="primary">上传竞标书</el-button>
+            </el-upload>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="insertBid">确 定</el-button>
+        </div>
+      </el-dialog>
     </el-main>
   </el-container>
 </template>
 
 <script>
-  import {reqBidsList} from "../api";
+  import {insertBid, reqBidsList} from "../api";
+  import global from '../global/global';
 
   export default {
     name: "TenderingsDetail",
@@ -37,12 +63,45 @@
           name: "",
         },
         bids: [],
+        bid: {
+          t_id: 0,
+          t_title: "",
+          e_id: 0,
+          content: "",
+          time: "",
+          src: ""
+        },
+        dialogFormVisible: false,
+
+        url: global.baseURL + "/upload",
       }
     },
     methods: {
       goBack() {
         this.$router.back();
-      }
+      }, async insertBid() {
+        this.bid.t_id = this.tendering.id;
+        this.bid.t_title = this.tendering.title;
+        this.bid.e_id = global.user.id;
+        this.bid.e_name = global.user.name;
+        let date = new Date();
+        this.bid.time = date.getTime();
+        let res = await insertBid(this.bid);
+        if (res.data === 1) {
+          this.$message.success("caozuochenggong");
+        } else {
+          this.$message.error('caozuoshibai');
+        }
+        this.dialogFormVisible = false;
+      }, uploadFileSuccess(res) {
+        this.bid.src = res.data;
+      },
+      handleExceed(files, fileList) {
+        this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      handleRemove(file, fileList) {
+        this.bid.src = null;
+      },
     }, async created() {
       this.tendering = this.$route.query.tendering;
       let tendering = this.tendering;

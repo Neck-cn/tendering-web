@@ -59,7 +59,8 @@
                   message:"登录成功！",
                   type:"success"
                 });
-                window.sessionStorage.setItem('token',result.data.token)
+                window.sessionStorage.setItem('token',result.data.token);
+                window.sessionStorage.setItem('user',JSON.stringify(result.data.enterprise));
                 global.token = result.data.token;
                 global.user = result.data.enterprise;
                 this.$router.push("/black");

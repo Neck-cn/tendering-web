@@ -32,6 +32,7 @@ export const getReportInfo= (page,pageSize,data) =>{return ajax(`${BASE_URL}/rep
 export const getBidInfo= (page,pageSize,data) =>{return ajax(`${BASE_URL}/bid/${page}/${pageSize}`,data,'POST')};
 export const getBidDetail= (id) =>{return ajax(`${BASE_URL}/bid/${id}`)};
 export const deleteBid= (id) =>{return ajax(`${BASE_URL}/bid/${id}`,null,'POST')};
+export const insertBid= (data) =>{return ajax(`${BASE_URL}/bid/insert`,data,'POST')};
 
 export const getTenderInfo= (page,pageSize,data) =>{return ajax(`${BASE_URL}/tendering/${page}/${pageSize}`,data,'POST')};
 export const getTenderDetail= (id) =>{return ajax(`${BASE_URL}/tendering/${id}`)};
@@ -43,39 +44,3 @@ export const getEnterDetail= (id) =>{return ajax(`${BASE_URL}/enterprise/info/${
 export const deleteEnter= (id) =>{return ajax(`${BASE_URL}/enterprise/${id}`,null,'POST')};
 // 管理员密码登陆
 export const adminPwdLogin = (username, password,time) => ajax(BASE_URL+'/admin/login', {username, password,time}, 'POST');
-
-// 1、根据经纬度获取位置详情
-export const reqAddress = (geohash) => ajax(`${BASE_URL}/position/${geohash}`)
-// 2、获取食品分类列表
-export const reqFoodCategorys = () => ajax(BASE_URL+'/index_category')
-// 3、根据经纬度获取商铺列表
-export const reqShops = (longitude, latitude) => ajax(BASE_URL+'/shops', {longitude, latitude})
-// 4、根据经纬度和关键字搜索商铺列表
-export const reqSearchShop = (geohash, keyword) => ajax(BASE_URL+'/search_shops', {geohash, keyword})
-
-
-// 8、手机号验证码登陆
-export const reqSmsLogin = (phone, code) => ajax(BASE_URL+'/login_sms', {phone, code}, 'POST')
-// 9、根据会话获取用户信息
-export const reqUserInfo = () => ajax(BASE_URL+'/userinfo')
-// 10、用户登出
-export const reqLogout = () => ajax(BASE_URL+'/logout')
-
-
-/**
- * 发送ajax请求，不需要代理拦截，所以不需要/api开头
- * 获取商家信息
- */
-export const reqShopInfo = () => ajax('/info')
-
-/**
- * 获取商家评价数组
- */
-export const reqShopRatings = () => ajax('/ratings')
-
-/**
- * 获取商家商品数组
- */
-export const  reqShopGoods = () => ajax('/goods')
-
-

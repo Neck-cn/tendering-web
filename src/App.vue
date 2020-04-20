@@ -6,6 +6,7 @@
 </template>
 <script>
     import Header from './components/Header'
+    import global from "./global/global";
   export default {
     name: 'App',
       components: {
@@ -26,7 +27,7 @@
           }
       },
     created() {
-
+      global.user = JSON.parse(window.sessionStorage.getItem('user'));
       // if (this.$cookies.isKey("username") && this.$cookies.isKey("password")) {
       //   this.isRouterAlive = false;
       //   let data = this.$qs.stringify({
