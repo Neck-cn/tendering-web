@@ -28,32 +28,32 @@
       <el-form :inline="true" :model="tender_query"   style="width: 100%">
         <div >
           <el-form-item style="width: 10%">
-            <span class="label_font">竞标信息id</span>
-            <el-input v-model="tender_query.id" placeholder="竞标信息id " ></el-input>
+            <span class="label_font">招标信息id</span>
+            <el-input v-model="tender_query.id" placeholder="招标信息id " ></el-input>
           </el-form-item>
           <el-form-item style="width: 10%">
-            <span class="label_font">竞标企业id</span>
-            <el-input v-model="tender_query.e_id" placeholder="竞标企业id"></el-input>
+            <span class="label_font">招标企业id</span>
+            <el-input v-model="tender_query.e_id" placeholder="招标企业id"></el-input>
           </el-form-item>
           <el-form-item style="width: 10%">
-            <span class="label_font">竞标项目id</span>
-            <el-input v-model="tender_query.t_id" placeholder="竞标项目id"></el-input>
+            <span class="label_font">招标状态</span>
+            <el-input v-model="tender_query.status" placeholder="招标状态"></el-input>
           </el-form-item>
           <el-form-item style="width: 10%">
-            <span class="label_font">竞标信息内容</span>
-            <el-input v-model="tender_query.content" placeholder="竞标信息内容"></el-input>
+            <span class="label_font">中标企业id</span>
+            <el-input v-model="tender_query.win_id" placeholder="中标企业id"></el-input>
           </el-form-item>
           <el-form-item style="width: 10%">
-            <span class="label_font">竞标书地址</span>
-            <el-input v-model="tender_query.src" placeholder="竞标书地址"></el-input>
+            <span class="label_font">招标标题</span>
+            <el-input v-model="tender_query.title" placeholder="招标标题"></el-input>
           </el-form-item>
           <el-form-item style="width: 10%">
-            <span class="label_font">竞标企业名称</span>
-            <el-input v-model="tender_query.e_name" placeholder="竞标企业名称"></el-input>
+            <span class="label_font">招标书地址</span>
+            <el-input v-model="tender_query.src" placeholder="招标书地址"></el-input>
           </el-form-item>
           <el-form-item style="width: 10%">
-            <span class="label_font"> 招标项目标题</span>
-            <el-input v-model="tender_query.t_title" placeholder=" 招标项目标题"></el-input>
+            <span class="label_font"> 招标企业名</span>
+            <el-input v-model="tender_query.name" placeholder=" 招标企业名"></el-input>
           </el-form-item>
 
           <el-form-item>
@@ -70,7 +70,7 @@
         style="width: 100%">
         <el-table-column
           prop="id"
-          label="竞标信息id"
+          label="招标信息id"
           width="65">
         </el-table-column>
 
@@ -81,13 +81,10 @@
 
         <el-table-column
           prop="status"
-          width="150"
-          label="竞标状态">
+          width="60"
+          label="招标状态">
         </el-table-column>
-        <el-table-column
-          prop="src"
-          label="招标书地址">
-        </el-table-column>
+
         <el-table-column
           prop="start_time"
           label="招标开始时间">
@@ -100,6 +97,7 @@
         </el-table-column>
         <el-table-column
           prop="win_id"
+          width="50"
           label="中标企业id">
         </el-table-column>
         <el-table-column
@@ -107,9 +105,16 @@
           label="招标标题">
         </el-table-column> <el-table-column
         prop="name"
+        width="80"
         label="招标企业名">
       </el-table-column>
-
+        <el-table-column
+          prop="src"
+          label="招标书地址">
+          <template  slot-scope="scope" >
+            <a :href="scope.row.src" style="text-decoration:underline;">{{scope.row.src}}</a>
+          </template>
+        </el-table-column>
 
         <el-table-column
           width="150"
@@ -196,7 +201,8 @@
                 if (result.code === 200) {
                     this.tableData = result.data.records;
                     for (var i in result.data.records){
-                        this.tableData[i].time=formatDate(result.data.records[i].time)
+                        this.tableData[i].start_time=formatDate(result.data.records[i].start_time)
+                        this.tableData[i].end_time=formatDate(result.data.records[i].end_time)
                     }
                     this.total = result.data.total;
                 } else {

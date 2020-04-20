@@ -115,7 +115,8 @@
         <tr>
           <td> <h3> 竞标书地址:</h3>
             <br>
-            {{tender.src}}</td>
+            <a :href="tender.src" style="text-decoration:underline;">{{tender.src}}</a>
+           </td>
 
         </tr>
       </table>

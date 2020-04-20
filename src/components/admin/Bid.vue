@@ -39,10 +39,10 @@
             <span class="label_font">竞标项目id</span>
             <el-input v-model="bid_query.t_id" placeholder="竞标项目id"></el-input>
           </el-form-item>
-          <el-form-item style="width: 10%">
-            <span class="label_font">竞标信息内容</span>
-            <el-input v-model="bid_query.content" placeholder="竞标信息内容"></el-input>
-          </el-form-item>
+<!--          <el-form-item style="width: 10%">-->
+<!--            <span class="label_font">竞标信息内容</span>-->
+<!--            <el-input v-model="bid_query.content" placeholder="竞标信息内容"></el-input>-->
+<!--          </el-form-item>-->
           <el-form-item style="width: 10%">
             <span class="label_font">竞标书地址</span>
             <el-input v-model="bid_query.src" placeholder="竞标书地址"></el-input>
@@ -91,6 +91,9 @@
         <el-table-column
           prop="src"
           label="竞标书地址">
+          <template  slot-scope="scope" >
+            <a :href="scope.row.src" style="text-decoration:underline;">{{scope.row.src}}</a>
+          </template>
         </el-table-column>
         <el-table-column
           prop="e_name"

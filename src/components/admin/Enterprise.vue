@@ -47,10 +47,7 @@
             <span class="label_font">企业手机</span>
             <el-input v-model="enter_query.phone" placeholder="企业手机"></el-input>
           </el-form-item>
-          <el-form-item style="width: 10%">
-            <span class="label_font">企业资质证书地址</span>
-            <el-input v-model="enter_query.certificates" placeholder="企业资质证书地址"></el-input>
-          </el-form-item>
+
 
 
           <el-form-item>
@@ -92,7 +89,9 @@
         <el-table-column
           prop="certificates"
           label="企业资质证书地址">
-
+          <template  slot-scope="scope" >
+            <img  style="height: 50px;width: 120px" :src="scope.row.certificates" alt="">
+          </template>
         </el-table-column>
 
         <el-table-column

@@ -48,13 +48,16 @@
         </tr>
         <tr>
           <td>  <h3>企业手机： </h3> {{enter.phone}}</td>
-          <td>  <h3>企业资质证书地址：</h3> {{enter.certificates}}</td>
+
         </tr>
 
 
 
 
       </table>
+       <h3>企业资质证书地址：</h3>
+        <!--            {{enter.certificates}}-->
+        <img :src="enter.certificates" alt="">
 
 
     </el-main>
