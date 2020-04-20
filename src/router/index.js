@@ -12,7 +12,16 @@ import MyTenderingsDetail from "../components/MyTenderingsDetail";
 import TenderingsDetail from "../components/TenderingsDetail";
 import MyBids from "../components/MyBids";
 import MyBidsDetail from "../components/MyBidsDetail";
-
+import  Header from '../components/Header'
+import AdminAdmin from '../components/admin/Admin'
+import AdminReport from '../components/admin/AdminReport'
+import AdminLogin from '../components/admin/Login'
+import AdminBid from '../components/admin/Bid'
+import AdminBidDetail from '../components/admin/BidDetail'
+import AdminTender from '../components/admin/Tender'
+import AdminEnterprise from '../components/admin/Enterprise'
+import AdminTenderDetail from '../components/admin/TenderDetail'
+import AdminEnterpriseDetail from '../components/admin/EnterpriseDetail'
 Vue.use(Router);
 
 
@@ -30,6 +39,12 @@ export default new Router({
           path: '/My/EditTenderings',
           name: 'EditTenderings',
           component: EditTenderings,
+          meta: {keepAlive: true}
+        },
+        {
+          path: '/Header',
+          name: 'Header',
+          component: Header,
           meta: {keepAlive: true}
         },
         {
@@ -91,6 +106,63 @@ export default new Router({
       path: '/',
       name: 'My',
       component: My
+    },
+
+    {
+      path: '/Admin/admin',
+      name: 'AdminAdmin',
+      component: AdminAdmin,
+      meta: {keepAlive: true}
+    }, {
+      path: '/Admin/login',
+      name: 'AdminLogin',
+      component: AdminLogin,
+      meta: {keepAlive: true}
+    },
+    {
+      path: '/Admin/Report',
+      name: 'AdminReport',
+      component: AdminReport,
+      meta: {keepAlive: true}
+    },
+    {
+      path: '/Admin/Bid',
+      name: 'AdminBid',
+      component: AdminBid,
+      meta: {keepAlive: true}
+    },
+
+    {
+      path: '/Admin/BidDetail',
+      name: 'AdminBidDetail',
+      component: AdminBidDetail,
+      meta: {keepAlive: true}
+    },
+    {
+      path: '/Admin/enter',
+      name: 'AdminEnter',
+      component: AdminEnterprise,
+      meta: {keepAlive: true}
+    },
+
+    {
+      path: '/Admin/EnterpriseDetail',
+      name: 'AdminEnterpriseDetail',
+      component: AdminEnterpriseDetail,
+      meta: {keepAlive: true}
+    },
+    {
+      path: '/Admin/Tender',
+      name: 'AdminTender',
+      component: AdminTender,
+      meta: {keepAlive: true}
+    },
+
+    {
+      path: '/Admin/tenderDetail',
+      name: 'AdminTenderDetail',
+      component: AdminTenderDetail,
+      meta: {keepAlive: true}
     },
   ]
 })

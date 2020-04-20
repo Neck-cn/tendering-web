@@ -27,7 +27,22 @@ export const reqDeleteBid= (bid) =>{return ajax(`${BASE_URL}/bid/${bid}`,bid,'PO
 
 export const reqTenderingInfo= (tid) =>{return ajax(`${BASE_URL}/tendering/${tid}`,tid,'GET')};
 
+export const getReportInfo= (page,pageSize,data) =>{return ajax(`${BASE_URL}/report/${page}/${pageSize}`,data,'POST')};
 
+export const getBidInfo= (page,pageSize,data) =>{return ajax(`${BASE_URL}/bid/${page}/${pageSize}`,data,'POST')};
+export const getBidDetail= (id) =>{return ajax(`${BASE_URL}/bid/${id}`)};
+export const deleteBid= (id) =>{return ajax(`${BASE_URL}/bid/${id}`,null,'POST')};
+
+export const getTenderInfo= (page,pageSize,data) =>{return ajax(`${BASE_URL}/tendering/${page}/${pageSize}`,data,'POST')};
+export const getTenderDetail= (id) =>{return ajax(`${BASE_URL}/tendering/${id}`)};
+export const deleteTender= (id) =>{return ajax(`${BASE_URL}/tendering/${id}`,null,'POST')};
+export const updateTender= (data) =>{return ajax(`${BASE_URL}/tendering/modify`,data,'PUT')};
+
+export const getEnterInfo= (page,pageSize,data) =>{return ajax(`${BASE_URL}/enterprise/${page}/${pageSize}`,data,'POST')};
+export const getEnterDetail= (id) =>{return ajax(`${BASE_URL}/enterprise/info/${id}`)};
+export const deleteEnter= (id) =>{return ajax(`${BASE_URL}/enterprise/${id}`,null,'POST')};
+// 管理员密码登陆
+export const adminPwdLogin = (username, password,time) => ajax(BASE_URL+'/admin/login', {username, password,time}, 'POST');
 
 // 1、根据经纬度获取位置详情
 export const reqAddress = (geohash) => ajax(`${BASE_URL}/position/${geohash}`)

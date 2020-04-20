@@ -2,7 +2,7 @@
 ajax请求函数封装;axios+promise
 * ajax请求函数模块*/
 import axios from 'axios'
-import global from '../global/global';
+//import global from '../global/global';
 
 export default function ajax(url, data = {}, type = 'GET', content = "application/json") {//发请求/异步请求
   //用axios发请求，返回值是promise对象(异步返回的数据是response.data)
@@ -22,16 +22,16 @@ export default function ajax(url, data = {}, type = 'GET', content = "applicatio
         url = url + '?' + dataStr;
       }
       //发送get请求
-      promise = axios.get(url, {headers: {"Content-Type": content, "token": global.token}});
+      promise = axios.get(url, {headers: {"Content-Type": content, "token": window.sessionStorage.getItem('token')}});
 
     }
     if (type === 'POST') {
       //发送post请求
-      promise = axios.post(url, data, {headers: {"Content-Type": content, "token": global.token}});
+      promise = axios.post(url, data, {headers: {"Content-Type": content, "token":window.sessionStorage.getItem('token')}});
     }
     if (type === 'PUT') {
       //发送put请求
-      promise = axios.put(url, data, {headers: {"Content-Type": content, "token": global.token}});
+      promise = axios.put(url, data, {headers: {"Content-Type": content, "token": window.sessionStorage.getItem('token')}});
     }
 
     //return promise

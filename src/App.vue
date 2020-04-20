@@ -1,38 +1,32 @@
 <template>
-  <el-container id="app" style="height: 96vh">
-    <el-header style="padding: 0">
-      <el-menu
-        text-color="#87CEFA"
-        active-text-color="#1989fa"
-        style="display: flex;justify-content: flex-end;width: 100%"
-        router
-        default-active="news"
-        mode="horizontal">
-        <div
-          :style="{backgroundImage: 'url(' + url + ')',backgroundRepeat:'no-repeat',backgroundSize:'100%',width:'94%'}"/>
-
-        <el-menu-item index="/Tenderings" key="招标信息">
-          <span slot="title">招标信息</span>
-        </el-menu-item>
-        <el-menu-item index="/My" key="我的">
-          <span slot="title">我的</span>
-        </el-menu-item>
-      </el-menu>
-    </el-header>
+  <div id="app">
+    <app-header v-if="header_show"></app-header>
     <router-view v-if="isRouterAlive"/>
-  </el-container>
+  </div>
 </template>
-
 <script>
+    import Header from './components/Header'
   export default {
     name: 'App',
+      components: {
+          'app-header':Header,
+
+      },
     data() {
       return {
+          header_show:true,
         isRouterAlive: true,
-        url: require('./assets/title.png')
+      //  url: require('./assets/title.png')
       }
     },
+      methods:{
+          //是否显示头部
+          header:function (bool) {
+              this.header_show = bool;
+          }
+      },
     created() {
+
       // if (this.$cookies.isKey("username") && this.$cookies.isKey("password")) {
       //   this.isRouterAlive = false;
       //   let data = this.$qs.stringify({
@@ -57,7 +51,7 @@
       //     this.isRouterAlive = true;
       //   });
       // }
-    },
+    }
   }
 </script>
 
