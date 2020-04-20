@@ -193,11 +193,9 @@
             },
             async mod_tender(){
 
-                // this.tender_mod.start_time=new Date(this.tender_mod.start_time.replace(new RegExp("-","gm"),"/")).getTime()
               this.tender_mod.start_time=new Date(this.tender_mod.start_time).getTime()
               this.tender_mod.end_time=new Date(this.tender_mod.end_time).getTime()
-                // this.tender_mod.end_time=new Date(this.tender_mod.end_time.replace(new RegExp("-","gm"),"/")).getTime()
-                //alert(this.tender_mod.start_time)
+
                 let result = await updateTender(this.tender_mod);
 
                 if (result.code === 200) {
