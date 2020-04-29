@@ -11,12 +11,14 @@
         <el-link type="primary" :href="tendering.src">招标书链接</el-link>
       </el-card>
       <el-card>
-        <h1>参与竞标公司</h1>
-        <h4 v-for="(bid,index) in bids" :key="index">
-          · <span v-text="bid.e_name"/>
-          <el-button @click="showDialog(bid)">详情</el-button>
-          <el-button @click="modifyTendering(bid.id)">中标</el-button>
-        </h4>
+        <div v-if="tendering.status!=='3'">
+          <h1>参与竞标公司</h1>
+          <h4 v-for="(bid,index) in bids" :key="index">
+            · <span v-text="bid.e_name"/>
+            <el-button @click="showDialog(bid)">详情</el-button>
+            <el-button @click="modifyTendering(bid.id,bid.content)">中标</el-button>
+          </h4>
+        </div>
       </el-card>
       <el-dialog title="竞标信息" :visible.sync="dialogFormVisible">
         <div><span v-text="detail.content"/></div>
@@ -30,14 +32,14 @@
 </template>
 
 <script>
-  import {reqBidsList} from "../api";
+  import {reqBidsList, updateTender, sendEmail, getEnterDetail} from "../api";
 
   export default {
     name: "MyTenderingsDetail",
     data() {
       return {
         tendering: {
-          id: 1,
+          id: 0,
           content: "",//招标详情
           e_id: "",//招标企业id
           status: "",//招标状态
@@ -46,6 +48,7 @@
           end_time: "",
           src: "",
           name: "",
+          win_id: 0
         },
         bids: [],
         dialogFormVisible: false,
@@ -59,10 +62,28 @@
       goBack() {
         this.$router.back();
       },
-      modifyTendering(b_id) {
-        console.log(b_id);
+      async modifyTendering(b_id, content) {
+        let result = await getEnterDetail(b_id);
+        let tendering = {};
+        if (result.code === 200) {
+          tendering = this.data;
+          sendEmail({
+            "address": tendering.e_mail,
+            "subject": "您的竞标信息已中标",
+            "text": "您发布的竞标信息：" + content + " 已中标，请及时与招标企业联系对接。",
+          }).then();
+          this.tendering.win_id = b_id;
+          this.tendering.status = "2";
+          result = await updateTender(this.tendering);
+          if (result.code === 200) {
+            this.$message.success("操作成功！");
+          } else {
+            this.$message.error("哎呀，出错了！");
+          }
+        } else {
+          this.$message.error("哎呀，出错了！");
+        }
       }, showDialog(bid) {
-        console.log(bid);
         this.detail.content = bid.content;
         this.detail.src = bid.src;
         this.dialogFormVisible = true;

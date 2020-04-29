@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <app-header v-if="header_show"></app-header>
+    <app-header v-if="header_show"/>
     <router-view v-if="isRouterAlive"/>
   </div>
 </template>
