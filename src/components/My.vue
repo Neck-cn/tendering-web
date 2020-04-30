@@ -74,6 +74,7 @@
           type: 'warning'
         }).then(() => {
           global.user=null;
+          window.sessionStorage.clear();
           this.$message({
             type: 'success',
             message: '注销成功!'
@@ -89,6 +90,9 @@
       if (global.user != null) {
         this.user = global.user;
         this.isLogin = true;
+        this.$router.push({path:"My/UserInfo"});
+      }else{
+        this.$router.push({path:"My/Login"});
       }
     }
   }

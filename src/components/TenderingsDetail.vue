@@ -15,7 +15,7 @@
         <h4 v-for="(bid,index) in bids" :key="index">· <span v-text="bid.e_name"/></h4>
       </el-card>
       <div style="padding:1rem;background-color:#3a8ee6;position: fixed;bottom: 3rem;right: 10rem;z-index: 9999;"
-           @click="dialogFormVisible = true">
+           @click="checkBid">
         发起<br>竞标
       </div>
       <el-dialog title="发起竞标" :visible.sync="dialogFormVisible">
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  import {insertBid, reqBidsList} from "../api";
+  import {getEnterDetail, insertBid, reqBidsList, sendEmail} from "../api";
   import global from '../global/global';
 
   export default {
@@ -77,6 +77,13 @@
       }
     },
     methods: {
+      checkBid() {
+        if (global.user === null) {
+          this.$message.error('请先登录');
+          return;
+        }
+        this.dialogFormVisible = true;
+      },
       goBack() {
         this.$router.back();
       }, async insertBid() {
@@ -86,11 +93,23 @@
         this.bid.e_name = global.user.name;
         let date = new Date();
         this.bid.time = date.getTime();
+        let result = await getEnterDetail(this.tendering.e_id);
         let res = await insertBid(this.bid);
+        const params = new URLSearchParams();
+        params.append('address', result.data.e_mail);
+        params.append('subject', "您的招标信息有人投标啦");
+        params.append('text', "您发布的招标信息：" + this.tendering.title + " 有人投标，投标内容为："
+          + this.bid.content + "。请及时查看。");
+        sendEmail(params).then();
         if (res.data === 1) {
-          this.$message.success("caozuochenggong");
+          this.$message.success("操作成功");
+          reqBidsList(1, 1000, {
+            t_id: this.tendering.id
+          }).then((res) => {
+            this.bids = res.data.records;
+          });
         } else {
-          this.$message.error('caozuoshibai');
+          this.$message.error('操作失败');
         }
         this.dialogFormVisible = false;
       }, uploadFileSuccess(res) {

@@ -1,5 +1,5 @@
 const token = '';
-const baseURL = 'http://134.175.99.101:8000';
+const baseURL = 'https://www.ychstudy.cn';
 let user = null;
 
 export default {

@@ -24,7 +24,7 @@
             <div
               style="margin-left: 8px;display: flex;flex-direction:column;justify-content: space-around">
               <el-link type="primary" :href="bid.src">竞标书</el-link>
-              <el-button type="danger" @click.stop="deleteBid(bid.id)">放弃竞标</el-button>
+              <el-button v-if="bid.t_e_id===0" type="danger" @click.stop="deleteBid(bid.id)">放弃竞标</el-button>
             </div>
           </div>
         </el-card>
@@ -37,6 +37,7 @@
 <script>
   import {reqBidsList, reqDeleteBid} from "../api";
   import global from '../global/global';
+
   export default {
     name: "MyBids",
     data() {

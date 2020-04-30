@@ -10,15 +10,21 @@
         <div v-html="tendering.content"/>
         <el-link type="primary" :href="tendering.src">招标书链接</el-link>
       </el-card>
-      <el-card>
-        <div v-if="tendering.status!=='3'">
+      <el-card v-if="tendering.status!=='2'">
+        <div>
           <h1>参与竞标公司</h1>
           <h4 v-for="(bid,index) in bids" :key="index">
             · <span v-text="bid.e_name"/>
             <el-button @click="showDialog(bid)">详情</el-button>
-            <el-button @click="modifyTendering(bid.id,bid.content)">中标</el-button>
+            <el-button @click="modifyTendering(bid)">中标</el-button>
           </h4>
         </div>
+      </el-card>
+      <el-card v-else>
+        <div>企业名：<span v-text="enterprise.name"/></div>
+        <div>地址：<span v-text="enterprise.address"/></div>
+        <div>手机号：<span v-text="enterprise.phone"/></div>
+        <div>邮箱：<span v-text="enterprise.e_mail"/></div>
       </el-card>
       <el-dialog title="竞标信息" :visible.sync="dialogFormVisible">
         <div><span v-text="detail.content"/></div>
@@ -32,7 +38,7 @@
 </template>
 
 <script>
-  import {reqBidsList, updateTender, sendEmail, getEnterDetail} from "../api";
+  import {getBidDetail, getEnterDetail, reqBidsList, sendEmail, updateBid, updateTender} from "../api";
 
   export default {
     name: "MyTenderingsDetail",
@@ -55,6 +61,12 @@
         detail: {
           content: "",
           src: ""
+        },
+        enterprise: {
+          name: "",
+          address: "",
+          phone: "",
+          e_mail: ""
         }
       }
     },
@@ -62,20 +74,26 @@
       goBack() {
         this.$router.back();
       },
-      async modifyTendering(b_id, content) {
-        let result = await getEnterDetail(b_id);
+      async modifyTendering(bid) {
+        let result = await getEnterDetail(bid.e_id);
         let tendering = {};
         if (result.code === 200) {
-          tendering = this.data;
-          sendEmail({
-            "address": tendering.e_mail,
-            "subject": "您的竞标信息已中标",
-            "text": "您发布的竞标信息：" + content + " 已中标，请及时与招标企业联系对接。",
-          }).then();
-          this.tendering.win_id = b_id;
+          tendering = result.data;
+          const params = new URLSearchParams();
+          params.append('address', tendering.e_mail);
+          params.append('subject', "您的竞标信息已中标");
+          params.append('text', "您发布的竞标信息：" + bid.content + " 已中标，招标项目为："
+            + bid.t_title + "。请及时与招标企业联系对接。");
+          sendEmail(params).then();
+          this.tendering.win_id = bid.id;
           this.tendering.status = "2";
+          bid.t_e_id = this.tendering.e_id;
+          updateBid(bid).then();
           result = await updateTender(this.tendering);
           if (result.code === 200) {
+            getEnterDetail(bid.e_id).then((res) => {
+              this.enterprise = res.data;
+            });
             this.$message.success("操作成功！");
           } else {
             this.$message.error("哎呀，出错了！");
@@ -91,6 +109,13 @@
     }, async created() {
       this.tendering = this.$route.query.tendering;
       let tendering = this.tendering;
+      if (tendering.win_id !== 0) {
+        getBidDetail(tendering.win_id).then((res) => {
+          getEnterDetail(res.data.e_id).then((res) => {
+            this.enterprise = res.data;
+          });
+        })
+      }
       let result = await reqBidsList(1, 1000, {
         t_id: tendering.id
       });

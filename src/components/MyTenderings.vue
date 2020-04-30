@@ -33,8 +33,9 @@
             <div
               style="margin-left: 8px;display: flex;flex-direction:column;justify-content: space-around">
               <span v-if="tendering.status==='1'">已审核</span>
+              <span v-else-if="tendering.status==='2'">已中标</span>
               <span v-else>未审核</span>
-              <el-button type="danger" @click.stop="deleteTendering(tendering.id)">删除</el-button>
+              <el-button v-if="tendering.status!=='2'" type="danger" @click.stop="deleteTendering(tendering.id)">删除</el-button>
             </div>
           </div>
         </el-card>

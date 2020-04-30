@@ -15,8 +15,9 @@
       </div>
       <div>
         企业经营许可证：
-        <el-image style="width: 100px; height: 100px"
-                  :src="user.certificates"/>
+        <el-image
+          fit="contain"
+          :src="user.certificates"/>
       </div>
       <el-button type="primary" style="width: 100%;margin-top: 18px" round
                  @click="updateClick">修改信息
@@ -145,8 +146,6 @@
   }
 
   .el-image {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    height: 40vh;
   }
 </style>

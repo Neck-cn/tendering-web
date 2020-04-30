@@ -4,7 +4,7 @@
  */
 import ajax from './ajax'
 
-const BASE_URL = 'http://134.175.99.101:8000';
+const BASE_URL = 'https://www.ychstudy.cn';
 //0、注册
 
 export const reqRegister = (username, password, phone, name, address, certificates, code) => ajax(BASE_URL + '/enterprise/register', {
@@ -69,6 +69,9 @@ export const deleteBid = (id) => {
 };
 export const insertBid = (data) => {
   return ajax(`${BASE_URL}/bid/insert`, data, 'POST')
+};
+export const updateBid = (data) => {
+  return ajax(`${BASE_URL}/bid/modify`, data, 'PUT')
 };
 
 export const getTenderInfo = (page, pageSize, data) => {
