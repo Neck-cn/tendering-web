@@ -30,8 +30,8 @@ export const reqTenderingList = (currentPage, pageSize, data) => {
   return ajax(`${BASE_URL}/tendering/${currentPage}/${pageSize}`, data, 'POST')
 };
 //4、修改用户信息
-export const reqModifyEnterprise = (id, name, address, phone, certificates) => {
-  return ajax(`${BASE_URL}/enterprise/modify`, {id, name, address, phone, certificates}, 'PUT')
+export const reqModifyEnterprise = (data) => {
+  return ajax(`${BASE_URL}/enterprise/modify`, data, 'PUT')
 };
 //5、插入招标信息4
 export const reqInsertTendering = (data) => {
@@ -56,6 +56,10 @@ export const reqTenderingInfo = (tid) => {
 
 export const getReportInfo = (page, pageSize, data) => {
   return ajax(`${BASE_URL}/report/${page}/${pageSize}`, data, 'POST')
+};
+
+export const insertReport = (data) => {
+  return ajax(`${BASE_URL}/report/insert`, data, 'POST')
 };
 
 export const getBidInfo = (page, pageSize, data) => {
@@ -102,5 +106,6 @@ export const adminPwdLogin = (username, password, time) => ajax(BASE_URL + '/adm
   password,
   time
 }, 'POST');
+export const adminChangePass = (data) => ajax(BASE_URL + '/admin/changePassword', data, 'PUT');
 
 export const sendEmail = (data) => ajax(BASE_URL + '/open/sendEmail', data, 'POST', 'application/x-www-form-urlencoded');

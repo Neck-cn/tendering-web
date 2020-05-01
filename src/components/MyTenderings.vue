@@ -18,7 +18,7 @@
       </div>
     </el-header>
     <el-main>
-      <div>
+      <div v-infinite-scroll="loadMore">
         <el-card shadow="hover" v-for="(tendering,index) in tenderings" :key="index"
                  style="margin-bottom: 4px;cursor: pointer">
           <div style="display: flex;" @click="tenderingsDetail(tendering)">
@@ -35,7 +35,8 @@
               <span v-if="tendering.status==='1'">已审核</span>
               <span v-else-if="tendering.status==='2'">已中标</span>
               <span v-else>未审核</span>
-              <el-button v-if="tendering.status!=='2'" type="danger" @click.stop="deleteTendering(tendering.id)">删除</el-button>
+              <el-button v-if="tendering.status!=='2'" type="danger" @click.stop="deleteTendering(tendering.id)">删除
+              </el-button>
             </div>
           </div>
         </el-card>
@@ -48,10 +49,12 @@
 <script>
   import {reqDeleteTendering, reqTenderingList} from "../api";
   import global from '../global/global';
+
   export default {
     name: "MyTenderings",
     data() {
       return {
+        pageCount: 0,
         currentPage: 1,
         pageSize: 20,
         tenderings: [],
@@ -69,6 +72,18 @@
         }],
       }
     }, methods: {
+      async loadMore() {
+        if (this.currentPage >= this.pageCount) {
+          return;
+        }
+        this.currentPage++;
+        let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
+        if (result.code === 200) {
+          this.tenderings = this.tenderings.concat(result.data.records);
+        } else {
+          this.$message.error("哎呀，出错了！");
+        }
+      },
       deleteTendering(id) {
         this.$confirm('确定要删除吗?', '提示', {
           confirmButtonText: '确定',
@@ -93,6 +108,7 @@
       async getList() {
         let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
         if (result.code === 200) {
+          this.pageCount = result.data.pages;
           this.tenderings = result.data.records;
         } else {
           this.$message.error("哎呀，出错了！");
@@ -106,6 +122,7 @@
       this.tendering.e_id = global.user.id;
       let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
       if (result.code === 200) {
+        this.pageCount = result.data.pages;
         this.tenderings = result.data.records;
       } else {
         this.$message.error("哎呀，出错了！");

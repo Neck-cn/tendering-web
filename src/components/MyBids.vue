@@ -10,7 +10,7 @@
       </div>
     </el-header>
     <el-main>
-      <div>
+      <div v-infinite-scroll="loadMore">
         <el-card shadow="hover" v-for="(bid,index) in bids" :key="index"
                  style="margin-bottom: 4px;cursor: pointer">
           <div style="display: flex;" @click="bidsDetail(bid)">
@@ -42,6 +42,7 @@
     name: "MyBids",
     data() {
       return {
+        pageCount: 0,
         currentPage: 1,
         pageSize: 20,
         bids: [],
@@ -54,12 +55,25 @@
         }
       }
     }, methods: {
+      async loadMore() {
+        if (this.currentPage >= this.pageCount) {
+          return;
+        }
+        this.currentPage++;
+        let result = await reqBidsList(this.currentPage, this.pageSize, this.bid);
+        if (result.code === 200) {
+          this.bids = this.bids.concat(result.data.records);
+        } else {
+          this.$message.error("哎呀，出错了！");
+        }
+      },
       bidsDetail(bid) {
         this.$router.push({name: 'MyBidsDetail', query: {bid: bid}})
       },
       async getList() {
         let result = await reqBidsList(this.currentPage, this.pageSize, this.bid);
         if (result.code === 200) {
+          this.pageCount = result.data.pages;
           this.bids = result.data.records;
         } else {
           this.$message.error("哎呀，出错了！");
@@ -88,6 +102,7 @@
       this.bid.e_id = global.user.id;
       let result = await reqBidsList(this.currentPage, this.pageSize, this.bid);
       if (result.code === 200) {
+        this.pageCount = result.data.pages;
         this.bids = result.data.records;
       } else {
         this.$message.error("哎呀，出错了！");

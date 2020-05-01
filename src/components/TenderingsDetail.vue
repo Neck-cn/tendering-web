@@ -12,10 +12,18 @@
       </el-card>
       <el-card>
         <h1>参与竞标公司</h1>
-        <h4 v-for="(bid,index) in bids" :key="index">· <span v-text="bid.e_name"/></h4>
+        <h4 v-for="(bid,index) in bids" :key="index">· <span v-text="bid.e_name"/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <el-button type="danger" size="mini" @click="reportBid(bid)">举报</el-button>
+        </h4>
       </el-card>
-      <div style="padding:1rem;background-color:#3a8ee6;position: fixed;bottom: 3rem;right: 10rem;z-index: 9999;"
-           @click="checkBid">
+      <div
+        style="padding:1rem;background-color:#3a8ee6;position: fixed;bottom: 3rem;right: 12rem;z-index: 9999;border-radius: 20%"
+        @click="checkBid">
         发起<br>竞标
       </div>
       <el-dialog title="发起竞标" :visible.sync="dialogFormVisible">
@@ -39,12 +47,23 @@
           <el-button type="primary" @click="insertBid">确 定</el-button>
         </div>
       </el-dialog>
+      <el-dialog title="举报企业" :visible.sync="reportDialogFormVisible">
+        <el-form :model="report">
+          <el-form-item label="举报内容" prop="content">
+            <el-input v-model="report.content" autocomplete="off"/>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="reportDialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="insertReport">确 定</el-button>
+        </div>
+      </el-dialog>
     </el-main>
   </el-container>
 </template>
 
 <script>
-  import {getEnterDetail, insertBid, reqBidsList, sendEmail} from "../api";
+  import {getEnterDetail, insertBid, insertReport, reqBidsList, sendEmail} from "../api";
   import global from '../global/global';
 
   export default {
@@ -69,9 +88,19 @@
           e_id: 0,
           content: "",
           time: "",
-          src: ""
+          src: "",
+          e_name: ""
+        },
+        report: {
+          bid: 0,
+          content: "",
+          e_id: 0,
+          r_name: "",
+          e_name: "",
+          time: null
         },
         dialogFormVisible: false,
+        reportDialogFormVisible: false,
 
         url: global.baseURL + "/upload",
       }
@@ -83,6 +112,27 @@
           return;
         }
         this.dialogFormVisible = true;
+      },
+      async insertReport() {
+        this.report.time = new Date().getTime();
+        let res = await insertReport(this.report);
+        if (res.data === 1) {
+          this.$message.success("操作成功");
+        } else {
+          this.$message.error('操作失败');
+        }
+        this.reportDialogFormVisible = false;
+      },
+      reportBid(bid) {
+        if (global.user === null) {
+          this.$message.error('请先登录');
+          return;
+        }
+        this.report.bid = bid.id;
+        this.report.e_id = bid.e_id;
+        this.report.r_name = global.user.name;
+        this.report.e_name = bid.e_name;
+        this.reportDialogFormVisible = true;
       },
       goBack() {
         this.$router.back();

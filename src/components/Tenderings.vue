@@ -2,7 +2,7 @@
   <el-container style="height: 86vh">
 
     <el-main>
-      <div>
+      <div v-infinite-scroll="loadMore">
         <el-card shadow="hover" v-for="(tendering,index) in tenderings" :key="index"
                  style="margin-bottom: 4px;cursor: pointer">
           <div style="display: flex;" @click="tenderingsDetail(tendering)">
@@ -38,10 +38,24 @@
         clientHeight: '',
         categoryOk: false,
         tendering: {
+          start_time: new Date().getTime(),
+          end_time: new Date().getTime(),
           status: 1
         }
       }
     }, methods: {
+      async loadMore() {
+        if (this.currentPage >= this.pageCount) {
+          return;
+        }
+        this.currentPage++;
+        let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
+        if (result.code === 200) {
+          this.tenderings = this.tenderings.concat(result.data.records);
+        } else {
+          this.$message.error("哎呀，出错了！");
+        }
+      },
       tenderingsDetail(tendering) {
         this.$router.push({name: 'TenderingsDetail', query: {tendering: tendering}})
       },
@@ -56,6 +70,7 @@
     }, async created() {
       let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
       if (result.code === 200) {
+        this.pageCount = result.data.pages;
         this.tenderings = result.data.records;
       } else {
         this.$message.error("哎呀，出错了！");

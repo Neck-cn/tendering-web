@@ -90,7 +90,11 @@
           cpassword: [{required: true, message: "确认密码不能为空"},
             {validator: validatePass, trigger: 'blur'}],
           address: [{required: true, message: "企业地址不能为空"}],
-          phone: [{required: true, message: "手机号不能为空"}],
+          phone: [
+            {required: true, message: "手机号不能为空"},
+            {min: 11, message: "手机号不正确"},
+            {max: 11, message: "手机号不正确"}
+          ],
           e_mail: [{required: true, message: "邮箱不能为空"}],
         }
       }
