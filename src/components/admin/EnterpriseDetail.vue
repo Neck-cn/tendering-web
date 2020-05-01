@@ -22,44 +22,27 @@
       </div>
 
     </el-header>
-    <el-main>
+    <el-main style="height: 80vh">
 
       <h1>企业信息详情  </h1>
-
       <hr>
-
-
-
-
       <table style="width:100%">
-
         <tr>
           <td>  <h2>企业id： {{enter.id}}</h2>
           <td>   <h2>企业用户名： {{enter.username}}</h2>
           </td>
-
-
         </tr>
         <tr>
           <td style="width: 50%">  <h3>企业名称: </h3> {{enter.name}}</td>
           <td>  <h3>企业地址:  </h3> {{enter.address}}</td>
-
-
         </tr>
         <tr>
           <td>  <h3>企业手机： </h3> {{enter.phone}}</td>
-
         </tr>
-
-
-
-
       </table>
-       <h3>企业资质证书地址：</h3>
+       <h3>企业资质证书：</h3>
         <!--            {{enter.certificates}}-->
         <img :src="enter.certificates" alt="">
-
-
     </el-main>
   </el-container>
 </template>

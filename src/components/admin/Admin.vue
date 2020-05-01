@@ -41,9 +41,7 @@
         },
         methods:{
             admin(){
-
                 this.$parent.header(false)
-
             },
             go_report(){
                 this.$router.push({

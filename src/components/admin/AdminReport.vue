@@ -22,8 +22,8 @@
       </div>
 
     </el-header>
-    <el-main>
-      <h1>管理员   订单列表</h1>
+    <el-main style="height: 80vh">
+      <h1>企业举报列表</h1>
       <hr>
       <el-form :inline="true" :model="report"   style="width: 100%">
         <div >

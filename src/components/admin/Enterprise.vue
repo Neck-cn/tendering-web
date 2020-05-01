@@ -22,36 +22,36 @@
       </div>
 
     </el-header>
-    <el-main>
-      <h1>竞标列表</h1>
+    <el-main style="height: 80vh">
+      <h1>企业列表</h1>
       <hr>
       <el-form :inline="true" :model="enter_query"   style="width: 100%">
         <div >
           <el-form-item style="width: 10%">
             <span class="label_font">企业id</span>
-            <el-input v-model="enter_query.id" placeholder="企业id " ></el-input>
+            <el-input v-model="enter_query.id" placeholder="企业id "/>
           </el-form-item>
           <el-form-item style="width: 10%">
             <span class="label_font">企业用户名</span>
-            <el-input v-model="enter_query.username" placeholder="企业用户名"></el-input>
+            <el-input v-model="enter_query.username" placeholder="企业用户名"/>
           </el-form-item>
           <el-form-item style="width: 10%">
             <span class="label_font">企业名称</span>
-            <el-input v-model="enter_query.name" placeholder="企业名称"></el-input>
+            <el-input v-model="enter_query.name" placeholder="企业名称"/>
           </el-form-item>
           <el-form-item style="width: 10%">
             <span class="label_font">企业地址</span>
-            <el-input v-model="enter_query.address" placeholder="企业地址"></el-input>
+            <el-input v-model="enter_query.address" placeholder="企业地址"/>
           </el-form-item>
           <el-form-item style="width: 10%">
             <span class="label_font">企业手机</span>
-            <el-input v-model="enter_query.phone" placeholder="企业手机"></el-input>
+            <el-input v-model="enter_query.phone" placeholder="企业手机"/>
           </el-form-item>
 
 
 
           <el-form-item>
-            <span class="label_font"></span><br>
+            <span class="label_font"/><br>
             <el-button type="primary" icon="el-icon-search" @click="select" class="query_button">
               查询
             </el-button>
@@ -88,7 +88,7 @@
         </el-table-column>
         <el-table-column
           prop="certificates"
-          label="企业资质证书地址">
+          label="企业资质证书">
           <template  slot-scope="scope" >
             <img  style="height: 50px;width: 120px" :src="scope.row.certificates" alt="">
           </template>
