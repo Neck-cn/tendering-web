@@ -62,6 +62,10 @@ export const insertReport = (data) => {
   return ajax(`${BASE_URL}/report/insert`, data, 'POST')
 };
 
+export const updateReport = (data) => {
+  return ajax(`${BASE_URL}/report/modify`, data, 'PUT')
+};
+
 export const getBidInfo = (page, pageSize, data) => {
   return ajax(`${BASE_URL}/bid/${page}/${pageSize}`, data, 'POST')
 };

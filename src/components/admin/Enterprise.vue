@@ -110,7 +110,7 @@
         :page-size="size"
         :total="total"
         layout="total, prev, pager, next, jumper"
-      ></el-pagination>
+      />
 
     </el-main>
   </el-container>
@@ -151,13 +151,11 @@
         },
         methods:{
             admin(){
-
                 this.$parent.header(false)
-
             },
             async select(){
                 this.page=1
-                this.enter=this.enter_query
+                this.enter=this.enter_query;
                 let result = await getEnterInfo(this.page,this.size,this.enter_query);
 
                 if (result.code === 200) {
