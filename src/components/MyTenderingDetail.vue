@@ -1,5 +1,5 @@
 <template>
-  <el-container style="height: 86vh">
+  <el-container style="height: 90vh">
     <el-header style="padding-top: 20px;">
       <el-page-header @back="goBack" content="详情页面">
       </el-page-header>
@@ -17,7 +17,7 @@
         <div>手机号：<span v-text="enterprise.phone"/></div>
         <div>邮箱：<span v-text="enterprise.e_mail"/></div>
       </el-card>
-      <el-card v-if="tendering.status!==0">
+      <el-card v-if="tendering.status!==0" style="margin-top: 20px">
         <div>
           <h1>参与竞标公司</h1>
           <h4 v-for="(bid,index) in bids" :key="index">
@@ -87,7 +87,7 @@
             + bid.t_title + "。请及时与招标企业联系对接。");
           sendEmail(params).then();
           this.tendering.win_id = bid.id;
-          this.tendering.status = "2";
+          this.tendering.status = 2;
           bid.t_e_id = this.tendering.e_id;
           updateBid(bid).then();
           result = await updateTender(this.tendering);

@@ -13,7 +13,7 @@ import MyTenderingsDetail from "../components/MyTenderingDetail";
 import TenderingsDetail from "../components/TenderingDetail";
 import MyBids from "../components/MyBidList";
 import MyBidsDetail from "../components/MyBidDetail";
-import  Header from '../components/Header'
+import Header from '../components/Header'
 import AdminAdmin from '../components/admin/Admin'
 import AdminReport from '../components/admin/AdminReport'
 import AdminLogin from '../components/admin/Login'
@@ -23,6 +23,8 @@ import AdminTender from '../components/admin/Tender'
 import AdminEnterprise from '../components/admin/Enterprise'
 import AdminTenderDetail from '../components/admin/TenderDetail'
 import AdminEnterpriseDetail from '../components/admin/EnterpriseDetail'
+import AdminExcellentTendering from '../components/admin/ExcellentTendering'
+
 Vue.use(Router);
 
 
@@ -33,6 +35,7 @@ export default new Router({
       path: '/My',
       name: 'My',
       component: My,
+      meta: {keepAlive: true},
       children: [
         {
           path: '/My/EditTenderings',
@@ -61,25 +64,30 @@ export default new Router({
         {
           path: '/My/TenderingsDetail',
           name: 'MyTenderingsDetail',
-          component: MyTenderingsDetail
+          component: MyTenderingsDetail,
+          meta: {keepAlive: true}
         },
         {
           path: '/My/MyBidsDetail',
           name: 'MyBidsDetail',
-          component: MyBidsDetail
+          component: MyBidsDetail,
+          meta: {keepAlive: true}
         },
         {
           path: '/My/Login',
           name: 'Login',
-          component: Login
+          component: Login,
+          meta: {keepAlive: true}
         }, {
           path: '/My/Register',
           name: 'Register',
-          component: Register
+          component: Register,
+          meta: {keepAlive: true}
         }, {
           path: '/My/UserInfo',
           name: 'UserInfo',
-          component: UserInfo
+          component: UserInfo,
+          meta: {keepAlive: true}
         },
       ]
     },
@@ -92,14 +100,17 @@ export default new Router({
       path: "/TenderingList",
       name: "TenderingList",
       component: TenderingList,
-    },{
+      meta: {keepAlive: true}
+    }, {
       path: "/Tenderings",
       name: "Tenderings",
       component: Tenderings,
+      meta: {keepAlive: true}
     }, {
       path: "/Login",
       name: "Login",
       component: Login,
+      meta: {keepAlive: true}
     }, {
       path: '/TenderingDetail',
       name: 'TenderingDetail',
@@ -107,7 +118,8 @@ export default new Router({
     }, {
       path: '/',
       name: 'My',
-      component: My
+      component: My,
+      meta: {keepAlive: true}
     },
 
     {
@@ -159,11 +171,15 @@ export default new Router({
       component: AdminTender,
       meta: {keepAlive: true}
     },
-
     {
       path: '/Admin/tenderDetail',
       name: 'AdminTenderDetail',
       component: AdminTenderDetail,
+      meta: {keepAlive: true}
+    }, {
+      path: '/Admin/excellentTendering',
+      name: 'ExcellentTendering',
+      component: AdminExcellentTendering,
       meta: {keepAlive: true}
     },
   ]

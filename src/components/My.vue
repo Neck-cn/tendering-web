@@ -3,7 +3,7 @@
     <el-aside width="200px">
       <el-menu
         :default-active="active"
-        style="height: 86vh"
+        style="height: 90vh"
         router>
         <div class="User">
           <el-image v-if="!isLogin"

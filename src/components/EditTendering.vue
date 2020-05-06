@@ -1,6 +1,6 @@
 <template>
-  <el-main>
-    <el-scrollbar style="height: 80vh">
+  <el-main style="height: 90vh">
+    <el-scrollbar>
       <el-form :model="tendering" ref='tendering' :rules="Rules">
         <el-form-item prop="title">
           <el-input placeholder="请输入标题" v-model="tendering.title"/>

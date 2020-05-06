@@ -1,6 +1,5 @@
 <template>
   <el-container style="height: 90vh">
-
     <el-main>
       <div class="tendering-main">
         <el-card class="tendering-body">

@@ -109,3 +109,7 @@ export const sendEmail = (data) => ajax(BASE_URL + '/open/sendEmail', data, 'POS
 export const getExcellentInfo = (page, pageSize) => {
   return ajax(`${BASE_URL}/excellent/bid/${page}/${pageSize}`, {}, 'POST')
 };
+
+export const getExcellentTenderingInfo = (page, pageSize) => {
+  return ajax(`${BASE_URL}/excellent/tendering/${page}/${pageSize}`, {}, 'POST')
+};

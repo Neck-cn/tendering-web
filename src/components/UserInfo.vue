@@ -1,14 +1,15 @@
 <template>
-  <el-main style="height:86vh">
+  <el-main style="height:90vh">
     <el-card v-loading="loading">
-      <div>
-        用户名：<span v-text="user.username"/>
-      </div>
       <div>
         企业全称：<span v-text="user.name"/>
       </div>
       <div>
         地址：<span v-text="user.address"/>
+      </div>
+      <div>
+        企业网址 ：
+        <el-link :href="user.site_url">{{user.site_url}}</el-link>
       </div>
       <div>
         手机号：<span v-text="user.phone"/>
@@ -22,7 +23,7 @@
           fit="contain"
           :src="user.certificates"/>
       </div>
-      <el-button type="primary" style="width: 100%;margin-top: 18px" round
+      <el-button type="primary" style="width: 100%;" round
                  @click="updateClick">修改信息
       </el-button>
     </el-card>
@@ -39,6 +40,9 @@
         </el-form-item>
         <el-form-item label="邮箱" prop="e_mail">
           <el-input v-model="tempUser.e_mail"/>
+        </el-form-item>
+        <el-form-item label="企业网址" prop="site_url">
+          <el-input v-model="tempUser.site_url"/>
         </el-form-item>
         <el-form-item type="password" label="密码" prop="password">
           <el-input v-model="tempUser.password"/>
@@ -87,16 +91,15 @@
         dialogFormVisible: false,
         user: {
           id: "",
-          username: "",
           password: "",
           name: "",//企业全称
           address: "",
           phone: "",
           certificates: "",
+          site_url: "",
         },
         tempUser: {
           id: "",
-          username: "",
           password: "",
           cpassword: "",
           name: "",//企业全称
@@ -104,6 +107,7 @@
           phone: "",
           certificates: "",
           e_mail: "",
+          site_url: "",
         },
         Rules: {
           e_mail: [
@@ -117,6 +121,7 @@
             {max: 11, message: "手机号不正确"},
           ],
           address: [{required: true, message: "地址不能为空"}],
+          site_url: [{required: true, message: "企业网址不能为空"}],
           certificates: [{required: true, message: "企业资质证书不能为空"}],
           password: [{min: 9, message: "密码长度必须大于等于九位"}],
           cpassword: [{validator: validatePass, trigger: 'blur'}]

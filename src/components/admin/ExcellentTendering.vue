@@ -7,13 +7,10 @@
           <div class="nav_item">
             <el-dropdown trigger="click">
                 <span class="el-dropdown-link">
-                    <img class="head_frame" src="../../assets/images/admin/admin.png"/>
+                    <img class="head_frame" src="../../assets/images/admin/admin.png" alt=""/>
                 </span>
               <el-dropdown-menu style="background-color: #0B152E" slot="dropdown">
-                <el-dropdown-item>
-                  <span class="nav_dropdown_font" @click="dialogFormVisible=true">修改密码</span>
-                </el-dropdown-item>
-                <el-dropdown-item>
+                <el-dropdown-item icon="el-icon-switch-button">
                   <a href="#">
                     <span class="nav_dropdown_font" @click="quit">退出登陆</span>
                   </a>
@@ -25,118 +22,139 @@
       </div>
 
     </el-header>
-    <el-main style="padding: 0">
-      <div class="admin-main">
-        <div style="padding-top: 10px;padding-left: 10px">
-          <el-button type="primary" @click="go_bid">竞标管理</el-button>
-          <el-button type="primary" @click="go_tender">招标管理</el-button>
-          <el-button type="primary" @click="go_report">举报信息</el-button>
-          <el-button type="primary" @click="go_enter">企业管理</el-button>
-          <el-button type="primary" @click="go_excellent">招标数据</el-button>
-        </div>
-        <div style="display: flex;justify-content: center;align-items: center;height: 70vh">
-          <div style="color:white;font-size: 60px;">欢迎访问</div>
-        </div>
-      </div>
-      <el-dialog title="修改密码" :visible.sync="dialogFormVisible">
-        <el-form :model="admin" ref="admin" :rules="Rules">
-          <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model="admin.password"/>
+    <el-main style="height: 80vh">
+      <h1>招标数据列表</h1>
+      <hr>
+      <el-form :inline="true" :model="excellent_tendering" style="width: 100%">
+        <div>
+          <el-form-item style="width: 15%">
+            <span class="label_font">企业名</span>
+            <el-input v-model="excellent_tendering.e_name" placeholder="企业名"/>
           </el-form-item>
-          <el-form-item label="确认密码" prop="cpassword">
-            <el-input type="password" v-model="admin.cpassword"/>
+          <el-form-item style="width: 15%">
+            <span class="label_font">成功次数</span>
+            <el-input v-model="excellent_tendering.win" placeholder="成功次数"/>
           </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="updateInfo('admin')">确 定</el-button>
+          <el-form-item style="width: 15%">
+            <span class="label_font">失败次数</span>
+            <el-input v-model="excellent_tendering.fail" placeholder="失败次数"/>
+          </el-form-item>
+          <el-form-item style="width: 15%">
+            <span class="label_font">总次数</span>
+            <el-input v-model="excellent_tendering.sum" placeholder="总次数"/>
+          </el-form-item>
+          <el-form-item>
+            <span class="label_font"/><br>
+            <el-button type="primary" icon="el-icon-search" @click="created" class="query_button">
+              查询
+            </el-button>
+          </el-form-item>
         </div>
-      </el-dialog>
+      </el-form>
+      <el-table
+        :data="tableData"
+        style="width: 100%">
+        <el-table-column
+          prop="e_id"
+          label="企业id"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="e_name"
+          label="企业名"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="win"
+          label="成功次数">
+        </el-table-column>
+        <el-table-column
+          prop="fail"
+          label="失败次数">
+        </el-table-column>
+        <el-table-column
+          prop="sum"
+          label="总次数">
+        </el-table-column>
+        <el-table-column
+          prop="win_rate"
+          label="成功率">
+        </el-table-column>
+        <el-table-column
+          prop="fail_rate"
+          label="失败率">
+        </el-table-column>
+      </el-table>
+
+      <el-pagination
+        background
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-size="size"
+        :total="total"
+        layout="total, prev, pager, next, jumper"
+      />
+
     </el-main>
   </el-container>
 </template>
 <script>
-
-  import {adminChangePass} from "../../api";
+  import {getExcellentTenderingInfo} from "../../api";
+  import formatDate from "../../global/formatDate";
 
   export default {
     data() {
-      let validatePass = (rule, value, callback) => {
-        if (this.admin.password !== "") {
-          if (value !== this.admin.password) {
-            callback(new Error('两次输入密码不一致!'));
-          } else callback();
-        } else {
-          callback();
-        }
-      };
       return {
-        dialogFormVisible: false,
-        admin: {
-          password: "",
-          cpassword: ""
-        },
-        Rules: {
-          password: [{min: 9, message: "密码长度必须大于等于九位"}],
-          cpassword: [{validator: validatePass, trigger: 'blur'}]
-        },
+        //分页属性
+        page: 1,
+        size: 10,
+        total: 10,
+        tableData: [],
+        excellent_tendering: {
+          win: '',
+          sum: '',
+          e_name: '',
+          fail: 0
+        }
       }
     },
     methods: {
       admin() {
         this.$parent.header(false)
       },
-      updateInfo(admin) {
-        this.$refs[admin].validate(async (valid) => {
-          if (valid) {
-            this.admin.username = "admin";
-            let result = await adminChangePass(this.admin);
-            if (result.code === 200) {
-              this.$message({
-                type: "success",
-                message: "修改成功！",
-              });
-              this.dialogFormVisible = false;
-            } else {
-              this.$message.error("哎呀，出错啦！");
-            }
-          }
-        });
-      },
       go_report() {
         this.$router.push({
-          path: '/admin/Report'
+          path: '/adminReport'
         })
+      }, async created() {
+        this.page = 1;
+
+        let result = await getExcellentTenderingInfo(this.page, this.size, this.report);
+
+        if (result.code === 200) {
+          this.tableData = result.data.records;
+          this.total = result.data.total;
+        } else {
+          this.$message.error("哎呀，出错了！");
+        }
       },
-      go_enter() {
-        this.$router.push({
-          path: '/admin/enter'
-        })
-      },
-      go_tender() {
-        this.$router.push({
-          path: '/admin/tender'
-        })
-      },
-      go_bid() {
-        this.$router.push({
-          path: '/admin/bid'
-        })
-      },
-      go_excellent() {
-        this.$router.push({
-          path: '/admin/excellentTendering'
-        })
+      //设置当前页
+      handleCurrentChange(val) {
+        this.page = val
+        // 获取请求数据
+
       },
       quit() {
         window.sessionStorage.clear();
         this.$router.push({
-          path: '/admin/login'
+          path: 'admin/login'
         })
       }
+
     },
     created() {
-      this.admin()
+      this.admin();
+      this.created()
     }
   }
 </script>
@@ -207,14 +225,6 @@
 
   }
 
-  .nav_dropdown_font {
-    font-family: PingFangSC-Regular;
-    font-size: 12px;
-    opacity: 0.8;
-    width: 100px;
-    color: #FFFFFF;
-  }
-
   .el-header {
     background-color: #101c3d;
     color: white;
@@ -230,15 +240,16 @@
       /*padding-left: 18.1%;*/
       /*padding-right: 18.1%;*/
       margin: 0 auto;
-      /*width: 1280px;*/
+      /*//width: 1280px;*/
     }
   }
 
   .head_frame {
     border: 1px solid rgba(228, 231, 235, 0.2);
     height: 44px;
-    vertical-align: middle;
     width: 44px;
+    margin: auto 0;
+    vertical-align: middle;
     border-radius: 22px;
   }
 
@@ -339,10 +350,5 @@
     width: 128px;
   }
 
-  .admin-main {
-    height: 86vh;
-    background: url('../../assets/tendering.jpg');
-    background-size: 100%;
-  }
 
 </style>

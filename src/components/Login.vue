@@ -1,7 +1,7 @@
 <template>
   <el-main>
     <el-form :rules="Rules" ref="user" :model="user">
-      <el-form-item label="用户名" prop="name">
+      <el-form-item label="企业名" prop="name">
         <el-input size="small" v-model="user.name"/>
       </el-form-item>
       <el-form-item label="密码" prop="password">

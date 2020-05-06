@@ -1,6 +1,6 @@
 <template>
   <el-main>
-    <el-scrollbar style="height: 80vh">
+    <el-scrollbar style="height: 90vh">
       <el-form :rules="Rules" ref="user" :model="user">
         <el-form-item label="企业名称" prop="name">
           <el-input size="small" v-model="user.name"/>

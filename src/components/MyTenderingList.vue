@@ -1,5 +1,5 @@
 <template>
-  <el-container style="height: 86vh">
+  <el-container style="height: 90vh">
     <el-header>
       <div style="padding: 10px;display: flex;">
         <el-select v-model="tendering.status" clearable placeholder="请选择状态" @change="getList()">

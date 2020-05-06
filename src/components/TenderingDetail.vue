@@ -1,5 +1,5 @@
 <template>
-  <el-container style="height: 86vh">
+  <el-container style="height: 90vh">
     <el-header style="padding-top: 20px;">
       <el-page-header @back="goBack" content="详情页面">
       </el-page-header>
@@ -10,14 +10,18 @@
         <div v-html="tendering.content"/>
         <el-link type="primary" :href="tendering.src">招标书链接</el-link>
       </el-card>
-      <el-card v-if="display > 1">
+      <el-card v-if="tendering.status===2">
+        <h1>中标企业信息</h1>
+        <div>企业名：<span v-text="enterprise.name"/></div>
+      </el-card>
+      <el-card v-if="display > 1" style="margin-top: 20px">
         <h1>参与竞标公司</h1>
         <h4 v-for="(bid,index) in bids" :key="index">· <span v-text="bid.e_name"/>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <el-button v-if="display===3" type="primary" size="mini" @click="reportBid(bid)">详情</el-button>
+          <el-button v-if="display===3" type="primary" size="mini" @click="showDialog(bid)">详情</el-button>
           <el-button type="danger" size="mini" @click="reportBid(bid)">举报</el-button>
         </h4>
       </el-card>
@@ -59,12 +63,19 @@
           <el-button type="primary" @click="insertReport">确 定</el-button>
         </div>
       </el-dialog>
+      <el-dialog title="竞标信息" :visible.sync="dialogBidVisible">
+        <div><span v-text="detail.content"/></div>
+        <el-link type="primary" :href="detail.src">竞标书链接</el-link>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="dialogBidVisible = false">确 定</el-button>
+        </div>
+      </el-dialog>
     </el-main>
   </el-container>
 </template>
 
 <script>
-  import {getEnterDetail, insertBid, insertReport, reqBidsList, sendEmail} from "../api";
+  import {getBidDetail, getEnterDetail, insertBid, insertReport, reqBidsList, sendEmail} from "../api";
   import global from '../global/global';
 
   export default {
@@ -103,8 +114,10 @@
         },
         dialogFormVisible: false,
         reportDialogFormVisible: false,
-
+        dialogBidVisible: false,
         url: global.baseURL + "/upload",
+        enterprise: {},
+        detail: {}
       }
     },
     methods: {
@@ -127,6 +140,11 @@
           this.$message.error('操作失败');
         }
         this.reportDialogFormVisible = false;
+      },
+      showDialog(bid) {
+        this.detail.content = bid.content;
+        this.detail.src = bid.src;
+        this.dialogBidVisible = true;
       },
       reportBid(bid) {
         if (global.user === null) {
@@ -178,15 +196,20 @@
       },
     }, async created() {
       this.tendering = this.$route.query.tendering;
+      let time = new Date().getTime();
       if (this.tendering.status === 2) {
         this.display = 3;
-      }
-      let time = new Date().getTime();
-      if (this.tendering.start_time > time) {
+      } else if (this.tendering.start_time > time) {
         this.display = 1;
-      }
-      if (this.tendering.start_time < time && this.tendering.end_time > time) {
+      } else if (this.tendering.start_time < time && this.tendering.end_time > time) {
         this.display = 2;
+      }
+      if (this.tendering.win_id !== 0) {
+        getBidDetail(this.tendering.win_id).then((res) => {
+          getEnterDetail(res.data.e_id).then((res) => {
+            this.enterprise = res.data;
+          });
+        })
       }
       let tendering = this.tendering;
       let result = await reqBidsList(1, 1000, {

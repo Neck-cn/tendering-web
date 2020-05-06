@@ -1,5 +1,5 @@
 <template>
-  <el-container style="height: 86vh">
+  <el-container style="height: 90vh">
     <el-header style="padding-top: 20px;">
       <el-page-header @back="goBack" content="详情页面">
       </el-page-header>
