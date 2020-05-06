@@ -10,21 +10,22 @@
         <div v-html="tendering.content"/>
         <el-link type="primary" :href="tendering.src">招标书链接</el-link>
       </el-card>
-      <el-card v-if="tendering.status!=='2'">
+      <el-card v-if="tendering.status===2">
+        <h1>中标企业信息</h1>
+        <div>企业名：<span v-text="enterprise.name"/></div>
+        <div>地址：<span v-text="enterprise.address"/></div>
+        <div>手机号：<span v-text="enterprise.phone"/></div>
+        <div>邮箱：<span v-text="enterprise.e_mail"/></div>
+      </el-card>
+      <el-card v-if="tendering.status!==0">
         <div>
           <h1>参与竞标公司</h1>
           <h4 v-for="(bid,index) in bids" :key="index">
             · <span v-text="bid.e_name"/>
             <el-button @click="showDialog(bid)">详情</el-button>
-            <el-button @click="modifyTendering(bid)">中标</el-button>
+            <el-button @click="modifyTendering(bid)" v-if="tendering.status===1">中标</el-button>
           </h4>
         </div>
-      </el-card>
-      <el-card v-else>
-        <div>企业名：<span v-text="enterprise.name"/></div>
-        <div>地址：<span v-text="enterprise.address"/></div>
-        <div>手机号：<span v-text="enterprise.phone"/></div>
-        <div>邮箱：<span v-text="enterprise.e_mail"/></div>
       </el-card>
       <el-dialog title="竞标信息" :visible.sync="dialogFormVisible">
         <div><span v-text="detail.content"/></div>

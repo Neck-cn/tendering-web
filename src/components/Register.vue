@@ -2,8 +2,8 @@
   <el-main>
     <el-scrollbar style="height: 80vh">
       <el-form :rules="Rules" ref="user" :model="user">
-        <el-form-item label="用户名" prop="username">
-          <el-input size="small" v-model="user.username"/>
+        <el-form-item label="企业名称" prop="name">
+          <el-input size="small" v-model="user.name"/>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input size="small" type="password" v-model="user.password"/>
@@ -11,14 +11,14 @@
         <el-form-item label="确认密码" prop="cpassword">
           <el-input size="small" type="password" v-model="user.cpassword"/>
         </el-form-item>
-        <el-form-item label="企业名称" prop="name">
-          <el-input size="small" v-model="user.name"/>
-        </el-form-item>
         <el-form-item label="邮箱" prop="e_mail">
           <el-input size="small" v-model="user.e_mail"/>
         </el-form-item>
         <el-form-item label="企业地址" prop="address">
           <el-input size="small" v-model="user.address"/>
+        </el-form-item>
+        <el-form-item label="企业网址" prop="site_url">
+          <el-input size="small" v-model="user.site_url"/>
         </el-form-item>
         <el-form-item label="企业经营许可证" prop="certificates">
           <el-upload
@@ -27,6 +27,16 @@
             :show-file-list="false"
             :on-success="handleAvatarSuccess">
             <el-image v-if="user.certificates" :src="user.certificates" class="avatar"/>
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="企业logo" prop="logo">
+          <el-upload
+            class="avatar-uploader"
+            :action="imgUpload"
+            :show-file-list="false"
+            :on-success="handleAvatarLogoSuccess">
+            <el-image v-if="user.logo" :src="user.logo" class="avatar"/>
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
         </el-form-item>
@@ -45,7 +55,7 @@
 
         </el-form-item>
         <div style="display: flex;justify-content: space-around">
-          <el-button type="primary" @click="register('user')">提交</el-button>
+          <el-button type="primary" @click="register('user')">注册</el-button>
           <el-button native-type="reset" type="primary">重置</el-button>
         </div>
       </el-form>
@@ -79,10 +89,13 @@
           name: "",
           cpassword: "",
           code: "",
-          e_mail: ""
+          e_mail: "",
+          logo: "",
+          site_url: "",
         },
         Rules: {
-          username: [{required: true, message: "用户名不能为空"}],
+          logo: [{required: true, message: "企业logo不能为空"}],
+          site_url: [{required: true, message: "企业网址不能为空"}],
           name: [{required: true, message: "企业名称不能为空"}],
           certificates: [{required: true, message: "企业经营许可证不能为空"}],
           password: [{required: true, message: "密码不能为空"}, {min: 9, message: "密码长度必须大于等于九位"}],
@@ -133,11 +146,12 @@
       },
       handleAvatarSuccess(res) {
         this.user.certificates = res.data;
+      }, handleAvatarLogoSuccess(res) {
+        this.user.logo = res.data;
       }, register(user) {
         this.$refs[user].validate(async (valid) => {
           if (valid) {
-            let result = await reqRegister(this.user.username, this.user.password, this.user.phone, this.user.name,
-              this.user.address, this.user.certificates, this.user.code);
+            let result = await reqRegister(this.user);
             if (result.code === 200) {
               this.$message({
                 message: "注册成功！",

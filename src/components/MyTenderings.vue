@@ -2,7 +2,7 @@
   <el-container style="height: 86vh">
     <el-header>
       <div style="padding: 10px;display: flex;">
-        <el-select v-model="tendering.status" clearable placeholder="请选择审核状态" @change="getList()">
+        <el-select v-model="tendering.status" clearable placeholder="请选择状态" @change="getList()">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -32,10 +32,10 @@
             </div>
             <div
               style="margin-left: 8px;display: flex;flex-direction:column;justify-content: space-around">
-              <span v-if="tendering.status==='1'">已审核</span>
-              <span v-else-if="tendering.status==='2'">已中标</span>
-              <span v-else>未审核</span>
-              <el-button v-if="tendering.status!=='2'" type="danger" @click.stop="deleteTendering(tendering.id)">删除
+              <span v-if="tendering.status===0">未审核</span>
+              <span v-else-if="tendering.status===1">已审核</span>
+              <span v-else>已中标</span>
+              <el-button v-if="tendering.status===0" type="danger" @click.stop="deleteTendering(tendering.id)">删除
               </el-button>
             </div>
           </div>
@@ -63,12 +63,15 @@
           title: null,
           status: null
         },
-        options: [{
+        options: [ {
+          value: '0',
+          label: '未审核'
+        },{
           value: '1',
           label: '已审核'
         }, {
-          value: '0',
-          label: '未审核'
+          value: '2',
+          label: '已中标'
         }],
       }
     }, methods: {
@@ -106,6 +109,7 @@
         this.$router.push({name: 'MyTenderingsDetail', query: {tendering: tendering}})
       },
       async getList() {
+        this.currentPage=1;
         let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
         if (result.code === 200) {
           this.pageCount = result.data.pages;

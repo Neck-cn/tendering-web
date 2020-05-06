@@ -7,18 +7,10 @@ import ajax from './ajax'
 const BASE_URL = 'https://www.ychstudy.cn';
 //0、注册
 
-export const reqRegister = (username, password, phone, name, address, certificates, code) => ajax(BASE_URL + '/enterprise/register', {
-  username,
-  password,
-  phone,
-  name,
-  address,
-  certificates,
-  code
-}, 'POST');
+export const reqRegister = (data) => ajax(BASE_URL + '/enterprise/register', data, 'POST');
 // 1、用户名密码登陆
-export const reqPwdLogin = (username, password, time) => ajax(BASE_URL + '/enterprise/login', {
-  username,
+export const reqPwdLogin = (name, password, time) => ajax(BASE_URL + '/enterprise/login', {
+  name,
   password,
   time
 }, 'POST');
@@ -113,3 +105,7 @@ export const adminPwdLogin = (username, password, time) => ajax(BASE_URL + '/adm
 export const adminChangePass = (data) => ajax(BASE_URL + '/admin/changePassword', data, 'PUT');
 
 export const sendEmail = (data) => ajax(BASE_URL + '/open/sendEmail', data, 'POST', 'application/x-www-form-urlencoded');
+
+export const getExcellentInfo = () => {
+  return ajax(`${BASE_URL}/excellent/1/10`, {}, 'POST')
+};

@@ -71,6 +71,7 @@
         this.$router.push({name: 'MyBidsDetail', query: {bid: bid}})
       },
       async getList() {
+        this.currentPage=1;
         let result = await reqBidsList(this.currentPage, this.pageSize, this.bid);
         if (result.code === 200) {
           this.pageCount = result.data.pages;

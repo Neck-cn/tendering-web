@@ -10,6 +10,7 @@
         <div v-html="tendering.content"></div>
       </el-card>
       <el-card v-if="bid.t_e_id!==0" shadow="never">
+        <h1>招标企业信息</h1>
         <div>企业名：<span v-text="enterprise.name"/></div>
         <div>地址：<span v-text="enterprise.address"/></div>
         <div>手机号：<span v-text="enterprise.phone"/></div>

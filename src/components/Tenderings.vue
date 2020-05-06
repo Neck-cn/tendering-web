@@ -19,14 +19,18 @@
           </div>
         </el-card>
       </div>
-
+      <div
+        style="padding:1rem;background-color:#3a8ee6;position: fixed;bottom: 5rem;right: 12rem;z-index: 9999;border-radius: 20%"
+        @click="getList">
+        刷新
+      </div>
     </el-main>
 
   </el-container>
 </template>
 
 <script>
-  import {reqTenderingList} from "../api";
+  import {getExcellentInfo, reqTenderingList} from "../api";
 
   export default {
     name: "Tenderings",
@@ -60,9 +64,11 @@
         this.$router.push({name: 'TenderingsDetail', query: {tendering: tendering}})
       },
       async getList() {
+        this.currentPage = 1;
         let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
         if (result.code === 200) {
-          this.tenderings = result.data;
+          this.pageCount = result.data.pages;
+          this.tenderings = result.data.records;
         } else {
           this.$message.error("哎呀，出错了！");
         }
@@ -75,6 +81,7 @@
       } else {
         this.$message.error("哎呀，出错了！");
       }
+      getExcellentInfo().then((res) => console.log(res.data.records));
     }
 
   }

@@ -11,7 +11,7 @@
                     :src="user.head"/>
           <el-image v-else
                     style="width: 100px; height: 100px;border-radius: 50%"
-                    :src="user1.head"/>
+                    :src="user1.logo"/>
           <div v-if="!isLogin"
                style="margin-top:5px;font-size: 14px;display: flex; justify-content:center;width: 100%">
             <router-link to="/My/Login">登录</router-link>
@@ -59,7 +59,7 @@
         user: {
           head: require('../assets/unLogin.png')
         }, user1: {
-          head: require('../assets/loginback.jpg')
+          logo: require('../assets/loginback.jpg')
         },
         isLogin: false,
         clientHeight: '',
@@ -88,7 +88,7 @@
     },
     created() {
       if (global.user != null) {
-        this.user = global.user;
+        this.user1 = global.user;
         this.isLogin = true;
         this.$router.push({path:"My/UserInfo"});
       }else{

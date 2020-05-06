@@ -3,7 +3,7 @@
     <el-scrollbar style="height: 80vh">
       <el-form :model="tendering" ref='tendering' :rules="Rules">
         <el-form-item prop="title">
-          <el-input placeholder="请输入文章标题" v-model="tendering.title"/>
+          <el-input placeholder="请输入标题" v-model="tendering.title"/>
         </el-form-item>
         <div style="display: flex;justify-content: space-between;align-items: center;padding: 0;margin: 0">
           <el-form-item prop="start_time">

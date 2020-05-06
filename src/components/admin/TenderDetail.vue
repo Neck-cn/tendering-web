@@ -24,7 +24,7 @@
     </el-header>
     <el-main style="height: 80vh">
       <h1>招标信息详情 </h1>
-      <el-button v-if="tender.status==='0'" type="primary" style="float: right" @click="mod_tender"> 审核通过</el-button>
+      <el-button v-if="tender.status===0" type="primary" style="float: right" @click="mod_tender"> 审核通过</el-button>
       <hr>
       <h2>招标标题： {{tender.title}}</h2>
       <table style="width:100%">
@@ -95,10 +95,11 @@
         this.$parent.header(false)
       },
       async mod_tender() {
-        this.tender.start_time = new Date(this.tender.start_time).getTime();
-        this.tender.end_time = new Date(this.tender.end_time).getTime();
         this.tender.status = '1';
-        let result = await updateTender(this.tender);
+        let tender=JSON.parse(JSON.stringify(this.tender));
+        tender.start_time = new Date(tender.start_time).getTime();
+        tender.end_time = new Date(tender.end_time).getTime();
+        let result = await updateTender(tender);
         if (result.code === 200) {
           this.$message.success("修改成功");
         } else {

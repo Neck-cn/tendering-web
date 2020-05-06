@@ -17,12 +17,11 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <el-button type="danger" size="mini" @click="reportBid(bid)">举报</el-button>
         </h4>
       </el-card>
       <div
-        style="padding:1rem;background-color:#3a8ee6;position: fixed;bottom: 3rem;right: 12rem;z-index: 9999;border-radius: 20%"
+        style="padding:1rem;background-color:#3a8ee6;position: fixed;bottom: 5rem;right: 12rem;z-index: 9999;border-radius: 20%"
         @click="checkBid">
         发起<br>竞标
       </div>
@@ -109,6 +108,9 @@
       checkBid() {
         if (global.user === null) {
           this.$message.error('请先登录');
+          return;
+        }else if(this.tendering.e_id===global.user.id){
+          this.$message.error('无法给自己竞标');
           return;
         }
         this.dialogFormVisible = true;

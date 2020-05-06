@@ -1,15 +1,15 @@
 <template>
   <el-main>
     <el-form :rules="Rules" ref="user" :model="user">
-      <el-form-item label="用户名" prop="username">
-        <el-input size="small" v-model="user.username"/>
+      <el-form-item label="用户名" prop="name">
+        <el-input size="small" v-model="user.name"/>
       </el-form-item>
       <el-form-item label="密码" prop="password">
         <el-input size="small" type="password" v-model="user.password"/>
       </el-form-item>
 
       <div style="display: flex;justify-content: space-around">
-        <el-button type="primary" @click="login('user')">提交</el-button>
+        <el-button type="primary" @click="login('user')">登录</el-button>
         <el-button native-type="reset" type="primary">重置</el-button>
       </div>
     </el-form>
@@ -25,11 +25,11 @@
     data() {
       return {
         user: {
-          username: "",
+          name: "",
           password: "",
         },
         Rules: {
-          username: [{required: true, message: "用户名不能为空"}],
+          name: [{required: true, message: "企业名不能为空"}],
           password: [{required: true, message: "密码不能为空"}, {min: 9, message: "密码长度必须大于等于九位"}],
         },
       }
@@ -47,14 +47,11 @@
               padding: fun_aes.CryptoJS.pad.Pkcs7
             });
             let password = require("../api/base64.js").Base64.encode(encrypted.toString());
-            let result=await reqPwdLogin(this.user.username,password,time);
+            let result=await reqPwdLogin(this.user.name,password,time);
             if(result.code===200){
               if(result.data ==null){
                 this.$message.error("用户名或密码错误！");
-                this.$router.push("/My/Login");
               }else{
-                this.$cookies.set("username", this.user.username, 60 * 60);
-                this.$cookies.set("password", this.user.password, 60 * 60);
                 this.$message({
                   message:"登录成功！",
                   type:"success"

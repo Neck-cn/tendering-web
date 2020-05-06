@@ -29,11 +29,12 @@
       <table style="width:100%">
         <tr>
           <td>  <h2>企业id： {{enter.id}}</h2>
-          <td>   <h2>企业用户名： {{enter.username}}</h2>
+          <td>   <h2>企业名称： {{enter.name}}</h2>
           </td>
         </tr>
         <tr>
-          <td style="width: 50%">  <h3>企业名称: </h3> {{enter.name}}</td>
+          <td style="width: 50%">
+            <el-link type="primary" :href="enter.site_url">企业网址</el-link></td>
           <td>  <h3>企业地址:  </h3> {{enter.address}}</td>
         </tr>
         <tr>
@@ -43,6 +44,9 @@
        <h3>企业资质证书：</h3>
         <!--            {{enter.certificates}}-->
         <img :src="enter.certificates" alt="">
+      <h3>企业logo：</h3>
+      <!--            {{enter.certificates}}-->
+      <img :src="enter.logo" alt="">
     </el-main>
   </el-container>
 </template>

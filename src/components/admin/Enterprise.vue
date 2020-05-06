@@ -68,8 +68,8 @@
           width="65">
         </el-table-column>
         <el-table-column
-          prop="username"
-          label="企业用户名"
+          prop="name"
+          label="企业名称"
           width="150">
         </el-table-column>
         <el-table-column
