@@ -10,18 +10,20 @@
         <div v-html="tendering.content"/>
         <el-link type="primary" :href="tendering.src">招标书链接</el-link>
       </el-card>
-      <el-card>
+      <el-card v-if="display > 1">
         <h1>参与竞标公司</h1>
         <h4 v-for="(bid,index) in bids" :key="index">· <span v-text="bid.e_name"/>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <el-button v-if="display===3" type="primary" size="mini" @click="reportBid(bid)">详情</el-button>
           <el-button type="danger" size="mini" @click="reportBid(bid)">举报</el-button>
         </h4>
       </el-card>
       <div
-        style="padding:1rem;background-color:#3a8ee6;position: fixed;bottom: 5rem;right: 12rem;z-index: 9999;border-radius: 20%"
+        v-if="display===2"
+        class="start-bid el-link el-radio"
         @click="checkBid">
         发起<br>竞标
       </div>
@@ -69,6 +71,7 @@
     name: "TenderingsDetail",
     data() {
       return {
+        display: 0,
         tendering: {
           id: 1,
           content: "",//招标详情
@@ -109,7 +112,7 @@
         if (global.user === null) {
           this.$message.error('请先登录');
           return;
-        }else if(this.tendering.e_id===global.user.id){
+        } else if (this.tendering.e_id === global.user.id) {
           this.$message.error('无法给自己竞标');
           return;
         }
@@ -175,6 +178,16 @@
       },
     }, async created() {
       this.tendering = this.$route.query.tendering;
+      if (this.tendering.status === 2) {
+        this.display = 3;
+      }
+      let time = new Date().getTime();
+      if (this.tendering.start_time > time) {
+        this.display = 1;
+      }
+      if (this.tendering.start_time < time && this.tendering.end_time > time) {
+        this.display = 2;
+      }
       let tendering = this.tendering;
       let result = await reqBidsList(1, 1000, {
         t_id: tendering.id
@@ -189,4 +202,14 @@
 </script>
 
 <style scoped>
+  .start-bid {
+    padding: 1rem;
+    background-color: #3a8ee6;
+    color: black;
+    position: fixed;
+    bottom: 5rem;
+    right: 12rem;
+    z-index: 9999;
+    border-radius: 50%
+  }
 </style>

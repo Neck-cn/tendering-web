@@ -1,6 +1,9 @@
 <template>
   <el-container style="height: 86vh">
-
+    <el-header style="padding-top: 20px;">
+      <el-page-header @back="goBack" :content="title">
+      </el-page-header>
+    </el-header>
     <el-main>
       <div v-infinite-scroll="loadMore">
         <el-card shadow="hover" v-for="(tendering,index) in tenderings" :key="index"
@@ -20,7 +23,7 @@
         </el-card>
       </div>
       <div
-        style="padding:1rem;background-color:#3a8ee6;position: fixed;bottom: 5rem;right: 12rem;z-index: 9999;border-radius: 20%"
+        class="refresh el-link"
         @click="getList">
         刷新
       </div>
@@ -30,7 +33,7 @@
 </template>
 
 <script>
-  import {getExcellentInfo, reqTenderingList} from "../api";
+  import {reqTenderingList} from "../api";
 
   export default {
     name: "Tenderings",
@@ -39,7 +42,7 @@
         currentPage: 1,
         pageSize: 20,
         tenderings: [],
-        clientHeight: '',
+        title: '',
         categoryOk: false,
         tendering: {
           start_time: new Date().getTime(),
@@ -61,7 +64,10 @@
         }
       },
       tenderingsDetail(tendering) {
-        this.$router.push({name: 'TenderingsDetail', query: {tendering: tendering}})
+        this.$router.push({name: 'TenderingDetail', query: {tendering: tendering}})
+      },
+      goBack() {
+        this.$router.back();
       },
       async getList() {
         this.currentPage = 1;
@@ -74,6 +80,25 @@
         }
       },
     }, async created() {
+      let method = this.$route.query.method;
+      switch (method) {
+        case 1:
+          this.title = "预招标列表";
+          this.tendering.status = 1;
+          this.tendering.start_time = new Date().getTime();
+          this.tendering.method = 1;
+          break;
+        case 2:
+          this.title = "招标中列表";
+          this.tendering.status = 1;
+          this.tendering.start_time = new Date().getTime();
+          this.tendering.end_time = new Date().getTime();
+          break;
+        case 3:
+          this.title = "已中标列表";
+          this.tendering.status = 2;
+          break;
+      }
       let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
       if (result.code === 200) {
         this.pageCount = result.data.pages;
@@ -81,11 +106,18 @@
       } else {
         this.$message.error("哎呀，出错了！");
       }
-      getExcellentInfo().then((res) => console.log(res.data.records));
     }
-
   }
 </script>
 
 <style scoped>
+  .refresh {
+    padding: 1rem;
+    background-color: #3a8ee6;
+    position: fixed;
+    bottom: 5rem;
+    right: 12rem;
+    z-index: 9999;
+    border-radius: 50%
+  }
 </style>

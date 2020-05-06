@@ -106,6 +106,6 @@ export const adminChangePass = (data) => ajax(BASE_URL + '/admin/changePassword'
 
 export const sendEmail = (data) => ajax(BASE_URL + '/open/sendEmail', data, 'POST', 'application/x-www-form-urlencoded');
 
-export const getExcellentInfo = () => {
-  return ajax(`${BASE_URL}/excellent/1/10`, {}, 'POST')
+export const getExcellentInfo = (page, pageSize) => {
+  return ajax(`${BASE_URL}/excellent/bid/${page}/${pageSize}`, {}, 'POST')
 };

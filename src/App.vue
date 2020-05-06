@@ -45,6 +45,7 @@
     min-width: 1100px;
     margin: 0 auto;
     background-color: white;
+    height: 100vh;
   }
 
   a {

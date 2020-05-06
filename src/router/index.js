@@ -5,13 +5,14 @@ import Register from '../components/Register'
 import UserInfo from '../components/UserInfo'
 import My from "../components/My"
 import black from "../components/black"
-import MyTenderings from "../components/MyTenderings";
-import EditTenderings from "../components/EditTenderings"
-import Tenderings from "../components/Tenderings"
-import MyTenderingsDetail from "../components/MyTenderingsDetail";
-import TenderingsDetail from "../components/TenderingsDetail";
-import MyBids from "../components/MyBids";
-import MyBidsDetail from "../components/MyBidsDetail";
+import MyTenderings from "../components/MyTenderingList";
+import TenderingList from "../components/TenderingList";
+import EditTenderings from "../components/EditTendering"
+import Tenderings from "../components/TenderingMain"
+import MyTenderingsDetail from "../components/MyTenderingDetail";
+import TenderingsDetail from "../components/TenderingDetail";
+import MyBids from "../components/MyBidList";
+import MyBidsDetail from "../components/MyBidDetail";
 import  Header from '../components/Header'
 import AdminAdmin from '../components/admin/Admin'
 import AdminReport from '../components/admin/AdminReport'
@@ -28,13 +29,11 @@ Vue.use(Router);
 export default new Router({
   mode: "history",
   routes: [
-
     {
       path: '/My',
       name: 'My',
       component: My,
       children: [
-
         {
           path: '/My/EditTenderings',
           name: 'EditTenderings',
@@ -69,7 +68,6 @@ export default new Router({
           name: 'MyBidsDetail',
           component: MyBidsDetail
         },
-
         {
           path: '/My/Login',
           name: 'Login',
@@ -91,6 +89,10 @@ export default new Router({
       component: black
     },
     {
+      path: "/TenderingList",
+      name: "TenderingList",
+      component: TenderingList,
+    },{
       path: "/Tenderings",
       name: "Tenderings",
       component: Tenderings,
@@ -99,8 +101,8 @@ export default new Router({
       name: "Login",
       component: Login,
     }, {
-      path: '/TenderingsDetail',
-      name: 'TenderingsDetail',
+      path: '/TenderingDetail',
+      name: 'TenderingDetail',
       component: TenderingsDetail
     }, {
       path: '/',
