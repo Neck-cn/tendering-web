@@ -39,13 +39,13 @@
         </div>
         <div class="excellent-bid-items">
           <div v-for="enterprise in excellent_bid_up" :key="enterprise.id">
-            <el-link :href="enterprise.site_url" :underline="false">{{enterprise.name}}</el-link>
+            <el-link :underline="false" @click.stop="navigatePage(enterprise)">{{enterprise.name}}</el-link>
           </div>
         </div>
         <hr>
         <div class="excellent-bid-items">
           <div v-for="enterprise in excellent_bid_down" :key="enterprise.id">
-            <el-link :href="enterprise.site_url" :underline="false">{{enterprise.name}}</el-link>
+            <el-link :underline="false" @click.stop="navigatePage(enterprise)">{{enterprise.name}}</el-link>
           </div>
         </div>
       </el-card>
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-  import {getExcellentInfo, reqTenderingList} from "../api";
+  import {getEnterDetail, getExcellentInfo, reqTenderingList} from "../api";
 
   export default {
     name: "Tenderings",
@@ -72,7 +72,9 @@
       },
       moreTendering(method) {
         this.$router.push({name: 'TenderingList', query: {method: method}})
-      },
+      },navigatePage(enterprise){
+        location.href=enterprise.site_url;
+      }
     }, created() {
       reqTenderingList(1, 9, {
         status: 1,
@@ -107,7 +109,16 @@
       });
       getExcellentInfo(1, 5).then((res) => {
         if (res.code === 200) {
-          this.excellent_bid_up = res.data.records
+          this.excellent_bid_up = res.data.records;
+          this.excellent_bid_up.forEach((enter)=>{
+            getEnterDetail(enter.e_id).then((res)=>{
+              if (res.code === 200) {
+                enter.site_url = res.data.site_url;
+              } else {
+                this.$message.error("哎呀，出错了！");
+              }
+            })
+          })
         } else {
           this.$message.error("哎呀，出错了！");
         }
