@@ -121,7 +121,7 @@
 
         },
         created() {
-            this.admin()
+            this.admin();
             this.created()
         }
     }

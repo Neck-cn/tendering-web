@@ -8,7 +8,7 @@
             <el-button style="float: right; padding: 3px 0" type="text" @click="moreTendering(1)">更多</el-button>
           </div>
           <div v-for="tendering in tendering_ready" :key="tendering.id">
-            <div class="el-link" @click="tenderingDetail(tendering)">{{tendering.title}}</div>
+            <div class="el-link main-title" @click="tenderingDetail(tendering)">{{tendering.title}}</div>
             <hr class="hr-dashed">
           </div>
         </el-card>
@@ -18,7 +18,7 @@
             <el-button style="float: right; padding: 3px 0" type="text" @click="moreTendering(2)">更多</el-button>
           </div>
           <div v-for="tendering in tendering_running" :key="tendering.id">
-            <div class="el-link" @click="tenderingDetail(tendering)">{{tendering.title}}</div>
+            <div class="el-link main-title" @click="tenderingDetail(tendering)">{{tendering.title}}</div>
             <hr class="hr-dashed">
           </div>
         </el-card>
@@ -28,7 +28,7 @@
             <el-button style="float: right; padding: 3px 0" type="text" @click="moreTendering(3)">更多</el-button>
           </div>
           <div v-for="tendering in tendering_complete" :key="tendering.id">
-            <div class="el-link" @click="tenderingDetail(tendering)">{{tendering.title}}</div>
+            <div class="el-link main-title" @click="tenderingDetail(tendering)">{{tendering.title}}</div>
             <hr class="hr-dashed">
           </div>
         </el-card>
@@ -58,6 +58,15 @@
 
   export default {
     name: "Tenderings",
+    filters: {
+      ellipsis(value) {
+        if (!value) return '';
+        if (value.length > 23) {
+          return value.slice(0, 23) + '...'
+        }
+        return value
+      }
+    },
     data() {
       return {
         tendering_ready: [],
@@ -72,8 +81,8 @@
       },
       moreTendering(method) {
         this.$router.push({name: 'TenderingList', query: {method: method}})
-      },navigatePage(enterprise){
-        location.href=enterprise.site_url;
+      }, navigatePage(enterprise) {
+        location.href = enterprise.site_url;
       }
     }, created() {
       reqTenderingList(1, 9, {
@@ -110,8 +119,8 @@
       getExcellentInfo(1, 5).then((res) => {
         if (res.code === 200) {
           this.excellent_bid_up = res.data.records;
-          this.excellent_bid_up.forEach((enter)=>{
-            getEnterDetail(enter.e_id).then((res)=>{
+          this.excellent_bid_up.forEach((enter) => {
+            getEnterDetail(enter.e_id).then((res) => {
               if (res.code === 200) {
                 enter.site_url = res.data.site_url;
               } else {
@@ -144,10 +153,7 @@
   .excellent-bid-items {
     display: flex;
     flex-direction: row;
-  }
-
-  .excellent-bid-item {
-    margin: 0 14px;
+    justify-content: space-between;
   }
 
   .tendering-main {
@@ -164,5 +170,12 @@
 
   .hr-dashed {
     border: 1px dashed #000
+  }
+
+  .main-title{
+    display: block;
+    text-overflow: ellipsis;  /*超出内容用省略号*/
+    overflow: hidden; /*内容超出后隐藏*/
+    white-space: nowrap; /*文本不进行换行*/
   }
 </style>

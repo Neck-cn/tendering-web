@@ -119,19 +119,22 @@
       }
     },
     methods: {
+      numFilter(value) {
+        const realVal = parseFloat(value).toFixed(2);
+        return realVal;
+      },
       admin() {
         this.$parent.header(false)
-      },
-      go_report() {
-        this.$router.push({
-          path: '/adminReport'
-        })
-      }, async created() {
+      },async created() {
         this.page = 1;
 
-        let result = await getExcellentTenderingInfo(this.page, this.size, this.report);
+        let result = await getExcellentTenderingInfo(this.page, this.size, {});
 
         if (result.code === 200) {
+          result.data.records.forEach((res) => {
+            res.win_rate=this.numFilter(res.win_rate);
+            res.fail_rate=this.numFilter(res.fail_rate);
+          });
           this.tableData = result.data.records;
           this.total = result.data.total;
         } else {
@@ -139,10 +142,21 @@
         }
       },
       //设置当前页
-      handleCurrentChange(val) {
-        this.page = val
+      async handleCurrentChange(val) {
+        this.page = val;
         // 获取请求数据
+        let result = await getExcellentTenderingInfo(this.page, this.size, {});
 
+        if (result.code === 200) {
+          result.data.records.forEach((res) => {
+            res.win_rate=this.numFilter(res.win_rate);
+            res.fail_rate=this.numFilter(res.fail_rate);
+          });
+          this.tableData = result.data.records;
+          this.total = result.data.total;
+        } else {
+          this.$message.error("哎呀，出错了！");
+        }
       },
       quit() {
         window.sessionStorage.clear();

@@ -83,7 +83,7 @@
       }
     },
     methods: {
-      admin() {
+      setAdmin() {
         this.$parent.header(false)
       },
       updateInfo(admin) {
@@ -136,7 +136,7 @@
       }
     },
     created() {
-      this.admin()
+      this.setAdmin();
     }
   }
 </script>
