@@ -102,7 +102,7 @@
         </el-table-column>
 
         <el-table-column
-          prop="t-title"
+          prop="t_title"
           label="招标项目标题">
         </el-table-column>
         <el-table-column
