@@ -100,7 +100,6 @@
 </template>
 <script>
   import {getExcellentTenderingInfo} from "../../api";
-  import formatDate from "../../global/formatDate";
 
   export default {
     data() {
@@ -125,15 +124,15 @@
       },
       admin() {
         this.$parent.header(false)
-      },async created() {
+      }, async created() {
         this.page = 1;
 
         let result = await getExcellentTenderingInfo(this.page, this.size, {});
 
         if (result.code === 200) {
           result.data.records.forEach((res) => {
-            res.win_rate=this.numFilter(res.win_rate);
-            res.fail_rate=this.numFilter(res.fail_rate);
+            res.win_rate = this.numFilter(res.win_rate);
+            res.fail_rate = this.numFilter(res.fail_rate);
           });
           this.tableData = result.data.records;
           this.total = result.data.total;
@@ -149,8 +148,8 @@
 
         if (result.code === 200) {
           result.data.records.forEach((res) => {
-            res.win_rate=this.numFilter(res.win_rate);
-            res.fail_rate=this.numFilter(res.fail_rate);
+            res.win_rate = this.numFilter(res.win_rate);
+            res.fail_rate = this.numFilter(res.fail_rate);
           });
           this.tableData = result.data.records;
           this.total = result.data.total;

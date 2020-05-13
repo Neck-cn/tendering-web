@@ -1,30 +1,33 @@
 <template>
   <div id="app">
     <app-header v-if="header_show"/>
-    <router-view v-if="isRouterAlive"/>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
   </div>
 </template>
 <script>
-    import Header from './components/Header'
-    import global from "./global/global";
+  import Header from './components/Header'
+  import global from "./global/global";
+
   export default {
     name: 'App',
-      components: {
-          'app-header':Header,
-      },
+    components: {
+      'app-header': Header,
+    },
     data() {
       return {
-          header_show:true,
+        header_show: true,
         isRouterAlive: true,
-      //  url: require('./assets/title.png')
       }
     },
-      methods:{
-          //是否显示头部
-          header:function (bool) {
-              this.header_show = bool;
-          }
-      },
+    methods: {
+      //是否显示头部
+      header: function (bool) {
+        this.header_show = bool;
+      }
+    },
     created() {
       global.user = JSON.parse(window.sessionStorage.getItem('user'));
     }

@@ -172,9 +172,9 @@
     border: 1px dashed #000
   }
 
-  .main-title{
+  .main-title {
     display: block;
-    text-overflow: ellipsis;  /*超出内容用省略号*/
+    text-overflow: ellipsis; /*超出内容用省略号*/
     overflow: hidden; /*内容超出后隐藏*/
     white-space: nowrap; /*文本不进行换行*/
   }

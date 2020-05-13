@@ -24,22 +24,22 @@
 </template>
 <script>
 
-    export default {
+  export default {
 
-        data() {
-            return {
-                url: require('../assets/title.png')
-            }
-        },
-        methods:{
-            //是否显示头部
-            header:function (bool) {
-                this.header_show = bool;
-            }
-        },
-        created() {
-        },
-    }
+    data() {
+      return {
+        url: require('../assets/title.png')
+      }
+    },
+    methods: {
+      //是否显示头部
+      header: function (bool) {
+        this.header_show = bool;
+      }
+    },
+    created() {
+    },
+  }
 </script>
 <style>
   .el-scrollbar__wrap {

@@ -35,59 +35,59 @@ export default new Router({
       path: '/My',
       name: 'My',
       component: My,
-      meta: {keepAlive: true},
+      // meta: {keepAlive: true},
       children: [
         {
           path: '/My/EditTenderings',
           name: 'EditTenderings',
           component: EditTenderings,
-          meta: {keepAlive: true}
+          // meta: {keepAlive: true}
         },
         {
           path: '/Header',
           name: 'Header',
           component: Header,
-          meta: {keepAlive: true}
+          // meta: {keepAlive: true}
         },
         {
           path: '/My/MyTenderings',
           name: 'MyTenderings',
           component: MyTenderings,
-          meta: {keepAlive: true}
+          // meta: {keepAlive: true}
         },
         {
           path: '/My/MyBids',
           name: 'MyBids',
           component: MyBids,
-          meta: {keepAlive: true}
+          // meta: {keepAlive: true}
         },
         {
           path: '/My/TenderingsDetail',
           name: 'MyTenderingsDetail',
           component: MyTenderingsDetail,
-          meta: {keepAlive: true}
+          // meta: {keepAlive: true}
         },
         {
           path: '/My/MyBidsDetail',
           name: 'MyBidsDetail',
           component: MyBidsDetail,
-          meta: {keepAlive: true}
+          // meta: {keepAlive: true}
         },
         {
           path: '/My/Login',
           name: 'Login',
           component: Login,
-          meta: {keepAlive: true}
+          // meta: {keepAlive: true}
         }, {
           path: '/My/Register',
           name: 'Register',
           component: Register,
-          meta: {keepAlive: true}
+          // meta: {keepAlive: true}
         }, {
           path: '/My/UserInfo',
           name: 'UserInfo',
           component: UserInfo,
-          meta: {keepAlive: true}
+          // meta: {keepAlive: true}
         },
       ]
     },
@@ -107,22 +107,15 @@ export default new Router({
       component: Tenderings,
       meta: {keepAlive: true}
     }, {
-      path: "/Login",
-      name: "Login",
-      component: Login,
-      meta: {keepAlive: true}
-    }, {
       path: '/TenderingDetail',
       name: 'TenderingDetail',
       component: TenderingsDetail
     }, {
       path: '/',
-      name: 'My',
-      component: My,
+      name: 'Tenderings',
+      component: Tenderings,
       meta: {keepAlive: true}
-    },
-
-    {
+    }, {
       path: '/Admin/admin',
       name: 'AdminAdmin',
       component: AdminAdmin,
@@ -150,7 +143,7 @@ export default new Router({
       path: '/Admin/BidDetail',
       name: 'AdminBidDetail',
       component: AdminBidDetail,
-      meta: {keepAlive: true}
+      // meta: {keepAlive: true}
     },
     {
       path: '/Admin/enter',
@@ -163,7 +156,7 @@ export default new Router({
       path: '/Admin/EnterpriseDetail',
       name: 'AdminEnterpriseDetail',
       component: AdminEnterpriseDetail,
-      meta: {keepAlive: true}
+      // meta: {keepAlive: true}
     },
     {
       path: '/Admin/Tender',
@@ -175,7 +168,7 @@ export default new Router({
       path: '/Admin/tenderDetail',
       name: 'AdminTenderDetail',
       component: AdminTenderDetail,
-      meta: {keepAlive: true}
+      // meta: {keepAlive: true}
     }, {
       path: '/Admin/excellentTendering',
       name: 'ExcellentTendering',

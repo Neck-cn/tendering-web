@@ -63,10 +63,10 @@
           title: null,
           status: null
         },
-        options: [ {
+        options: [{
           value: '0',
           label: '未审核'
-        },{
+        }, {
           value: '1',
           label: '已审核'
         }, {
@@ -109,7 +109,7 @@
         this.$router.push({name: 'MyTenderingsDetail', query: {tendering: tendering}})
       },
       async getList() {
-        this.currentPage=1;
+        this.currentPage = 1;
         let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
         if (result.code === 200) {
           this.pageCount = result.data.pages;

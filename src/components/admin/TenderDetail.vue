@@ -86,7 +86,6 @@
           start_time: '',
           end_time: '',
           t_title: ''
-
         }
       }
     },
@@ -96,7 +95,7 @@
       },
       async mod_tender() {
         this.tender.status = '1';
-        let tender=JSON.parse(JSON.stringify(this.tender));
+        let tender = JSON.parse(JSON.stringify(this.tender));
         tender.start_time = new Date(tender.start_time).getTime();
         tender.end_time = new Date(tender.end_time).getTime();
         let result = await updateTender(tender);

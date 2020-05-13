@@ -52,6 +52,7 @@
 
 <script>
   import global from '../global/global';
+
   export default {
     name: "my",
     data() {
@@ -73,7 +74,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          global.user=null;
+          global.user = null;
           window.sessionStorage.clear();
           this.$message({
             type: 'success',
@@ -90,9 +91,9 @@
       if (global.user != null) {
         this.user1 = global.user;
         this.isLogin = true;
-        this.$router.push({path:"My/UserInfo"});
-      }else{
-        this.$router.push({path:"My/Login"});
+        this.$router.push({path: "/My/UserInfo"});
+      } else {
+        this.$router.push({path: "/My/Login"});
       }
     }
   }

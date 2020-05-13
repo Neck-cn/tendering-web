@@ -1,15 +1,15 @@
 <template>
-    
+
 </template>
 
 <script>
 
-    export default {
-        name: "black",
-      created() {
-          this.$router.replace("/My");
-      }
-    }
+  export default {
+    name: "black",
+    created() {
+      this.$router.replace("/My");
+    },
+  }
 </script>
 
 <style scoped>

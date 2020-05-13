@@ -4,8 +4,8 @@ export default (time) => {
   let seperator2 = ":";
   let month = date.getMonth() + 1;
   let strDate = date.getDate();
-  let hours=date.getHours();
-  let minutes=date.getMinutes();
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
   if (month >= 1 && month <= 9) {
     month = "0" + month;
   }

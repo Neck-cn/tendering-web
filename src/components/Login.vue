@@ -34,8 +34,8 @@
         },
       }
     }, methods: {
-       login(user) {
-        this.$refs[user].validate(async(valid) => {
+      login(user) {
+        this.$refs[user].validate(async (valid) => {
           if (valid) {
             let time = new Date().getTime();
             // console.log(time);
@@ -47,22 +47,22 @@
               padding: fun_aes.CryptoJS.pad.Pkcs7
             });
             let password = require("../api/base64.js").Base64.encode(encrypted.toString());
-            let result=await reqPwdLogin(this.user.name,password,time);
-            if(result.code===200){
-              if(result.data ==null){
+            let result = await reqPwdLogin(this.user.name, password, time);
+            if (result.code === 200) {
+              if (result.data == null) {
                 this.$message.error("用户名或密码错误！");
-              }else{
+              } else {
                 this.$message({
-                  message:"登录成功！",
-                  type:"success"
+                  message: "登录成功！",
+                  type: "success"
                 });
-                window.sessionStorage.setItem('token',result.data.token);
-                window.sessionStorage.setItem('user',JSON.stringify(result.data.enterprise));
+                window.sessionStorage.setItem('token', result.data.token);
+                window.sessionStorage.setItem('user', JSON.stringify(result.data.enterprise));
                 global.token = result.data.token;
                 global.user = result.data.enterprise;
                 this.$router.push("/black");
               }
-            }else{
+            } else {
               this.$message.error("哎呀，出错了！");
             }
 
@@ -72,7 +72,7 @@
     }, created() {
     }
   }
-//   :style="{backgroundImage: 'url(' + url + ')',backgroundRepeat:'no-repeat',backgroundSize:'100%'}"
+  //   :style="{backgroundImage: 'url(' + url + ')',backgroundRepeat:'no-repeat',backgroundSize:'100%'}"
 </script>
 
 <style scoped>

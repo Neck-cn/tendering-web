@@ -75,9 +75,7 @@
         }
       },
       admin() {
-
         this.$parent.header(false)
-
       },
     },
     created() {
@@ -89,7 +87,8 @@
 <style scoped>
   @import '../../assets/css/reset.css';
   @import '../../assets/css/style.css';
-  #particles-js{
+
+  #particles-js {
     display: flex;
     align-items: center;
   }
