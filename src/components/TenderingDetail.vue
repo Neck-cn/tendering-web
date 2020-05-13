@@ -29,11 +29,11 @@
         v-if="display===2"
         class="start-bid el-link el-radio"
         @click="checkBid">
-        发起<br>竞标
+        发起<br>投标
       </div>
-      <el-dialog title="发起竞标" :visible.sync="dialogFormVisible">
+      <el-dialog title="发起投标" :visible.sync="dialogFormVisible">
         <el-form :model="bid">
-          <el-form-item label="竞标内容" prop="content">
+          <el-form-item label="投标内容" prop="content">
             <el-input v-model="bid.content" autocomplete="off"/>
           </el-form-item>
           <el-form-item prop="src">
@@ -43,7 +43,7 @@
               :on-exceed="handleExceed"
               :on-remove="handleRemove"
               :limit="1">
-              <el-button type="primary">上传竞标书</el-button>
+              <el-button type="primary">上传投标书</el-button>
             </el-upload>
           </el-form-item>
         </el-form>
@@ -65,7 +65,7 @@
       </el-dialog>
       <el-dialog title="竞标信息" :visible.sync="dialogBidVisible">
         <div><span v-text="detail.content"/></div>
-        <el-link type="primary" :href="detail.src">竞标书链接</el-link>
+        <el-link type="primary" :href="detail.src">投标书链接</el-link>
         <div slot="footer" class="dialog-footer">
           <el-button type="primary" @click="dialogBidVisible = false">确 定</el-button>
         </div>

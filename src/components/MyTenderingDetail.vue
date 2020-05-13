@@ -19,7 +19,7 @@
       </el-card>
       <el-card v-if="tendering.status!==0" style="margin-top: 20px">
         <div>
-          <h1>参与竞标公司</h1>
+          <h1>参与投标公司</h1>
           <h4 v-for="(bid,index) in bids" :key="index">
             · <span v-text="bid.e_name"/>
             <el-button @click="showDialog(bid)">详情</el-button>
@@ -27,9 +27,9 @@
           </h4>
         </div>
       </el-card>
-      <el-dialog title="竞标信息" :visible.sync="dialogFormVisible">
+      <el-dialog title="投标信息" :visible.sync="dialogFormVisible">
         <div><span v-text="detail.content"/></div>
-        <el-link type="primary" :href="detail.src">竞标书链接</el-link>
+        <el-link type="primary" :href="detail.src">投标书链接</el-link>
         <div slot="footer" class="dialog-footer">
           <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
         </div>
