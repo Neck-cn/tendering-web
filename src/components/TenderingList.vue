@@ -5,7 +5,11 @@
       </el-page-header>
     </el-header>
     <el-main>
-      <div v-infinite-scroll="loadMore">
+      <div class="tendering-list" v-infinite-scroll="loadMore"
+           v-loading="loading"
+           element-loading-text="拼命加载中"
+           element-loading-spinner="el-icon-loading"
+           element-loading-background="rgba(0, 0, 0, 0.8)">
         <el-card shadow="hover" v-for="(tendering,index) in tenderings" :key="index"
                  style="margin-bottom: 4px;cursor: pointer">
           <div style="display: flex;" @click="tenderingsDetail(tendering)">
@@ -27,6 +31,7 @@
         @click="getList">
         刷新
       </div>
+
     </el-main>
 
   </el-container>
@@ -40,7 +45,7 @@
     data() {
       return {
         currentPage: 1,
-        pageSize: 20,
+        pageSize: 10,
         tenderings: [],
         title: '',
         categoryOk: false,
@@ -48,13 +53,21 @@
           start_time: new Date().getTime(),
           end_time: new Date().getTime(),
           status: 1
-        }
+        },
+        loading: true,
+        isLoading: false
       }
     }, methods: {
       async loadMore() {
-        if (this.currentPage >= this.pageCount) {
+        if (this.isLoading === true) {
           return;
         }
+        if (this.currentPage >= this.pageCount) {
+          this.$message.info("已经到底了");
+          return;
+        }
+        this.$message.info("加载中");
+        this.isLoading = true;
         this.currentPage++;
         let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
         if (result.code === 200) {
@@ -62,6 +75,7 @@
         } else {
           this.$message.error("哎呀，出错了！");
         }
+        this.isLoading = false;
       },
       tenderingsDetail(tendering) {
         this.$router.push({name: 'TenderingDetail', query: {tendering: tendering}})
@@ -70,6 +84,8 @@
         this.$router.back();
       },
       async getList() {
+        this.tenderings=[];
+        this.loading = true;
         this.currentPage = 1;
         let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
         if (result.code === 200) {
@@ -78,6 +94,7 @@
         } else {
           this.$message.error("哎呀，出错了！");
         }
+        this.loading=false;
       },
     }, async created() {
       let method = this.$route.query.method;
@@ -106,6 +123,7 @@
       } else {
         this.$message.error("哎呀，出错了！");
       }
+      this.loading = false;
     }
   }
 </script>

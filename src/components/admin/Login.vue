@@ -59,8 +59,6 @@
             this.$message.error("用户名或密码错误！");
             this.$router.push("/admin/Login");
           } else {
-            this.$cookies.set("username", this.user.username, 60 * 60);
-            this.$cookies.set("password", this.user.password, 60 * 60);
             this.$message({
               message: "登录成功！",
               type: "success"

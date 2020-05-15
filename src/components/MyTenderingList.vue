@@ -18,7 +18,11 @@
       </div>
     </el-header>
     <el-main>
-      <div v-infinite-scroll="loadMore">
+      <div v-infinite-scroll="loadMore"
+           v-loading="loading"
+           element-loading-text="拼命加载中"
+           element-loading-spinner="el-icon-loading"
+           element-loading-background="rgba(0, 0, 0, 0.8)">
         <el-card shadow="hover" v-for="(tendering,index) in tenderings" :key="index"
                  style="margin-bottom: 4px;cursor: pointer">
           <div style="display: flex;" @click="tenderingsDetail(tendering)">
@@ -56,7 +60,7 @@
       return {
         pageCount: 0,
         currentPage: 1,
-        pageSize: 20,
+        pageSize: 10,
         tenderings: [],
         tendering: {
           e_id: 0,
@@ -73,12 +77,20 @@
           value: '2',
           label: '已中标'
         }],
+        loading: true,
+        isLoading: false
       }
     }, methods: {
       async loadMore() {
-        if (this.currentPage >= this.pageCount) {
+        if (this.isLoading === true) {
           return;
         }
+        if (this.currentPage >= this.pageCount) {
+          this.$message.info("已经到底啦");
+          return;
+        }
+        this.$message.info("加载中");
+        this.isLoading = true;
         this.currentPage++;
         let result = await reqTenderingList(this.currentPage, this.pageSize, this.tendering);
         if (result.code === 200) {
@@ -86,6 +98,7 @@
         } else {
           this.$message.error("哎呀，出错了！");
         }
+        this.isLoading = false;
       },
       deleteTendering(id) {
         this.$confirm('确定要删除吗?', '提示', {
@@ -131,6 +144,7 @@
       } else {
         this.$message.error("哎呀，出错了！");
       }
+      this.loading = false;
     }
   }
 </script>

@@ -100,7 +100,7 @@ export default new Router({
       path: "/TenderingList",
       name: "TenderingList",
       component: TenderingList,
-      meta: {keepAlive: true}
+      // meta: {keepAlive: true}
     }, {
       path: "/Tenderings",
       name: "Tenderings",
