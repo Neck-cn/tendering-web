@@ -16,6 +16,7 @@
         <div>地址：<span v-text="enterprise.address"/></div>
         <div>手机号：<span v-text="enterprise.phone"/></div>
         <div>邮箱：<span v-text="enterprise.e_mail"/></div>
+        <div>中标原因：<span v-text="tendering.reason"/></div>
       </el-card>
       <el-card v-if="tendering.status!==0" style="margin-top: 20px">
         <div>
@@ -55,7 +56,8 @@
           end_time: "",
           src: "",
           name: "",
-          win_id: 0
+          win_id: 0,
+          reason: ""
         },
         bids: [],
         dialogFormVisible: false,
@@ -76,6 +78,11 @@
         this.$router.back();
       },
       async modifyTendering(bid) {
+        let value = await this.$prompt('请输入中标原因', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        });
+        this.tendering.reason = value.value;
         let result = await getEnterDetail(bid.e_id);
         let tendering = {};
         if (result.code === 200) {

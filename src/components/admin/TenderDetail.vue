@@ -42,6 +42,7 @@
         </tr>
         <tr>
           <td><h3>中标企业id： </h3> {{tender.win_id}}</td>
+          <td><h3>中标理由： </h3> {{tender.reason}}</td>
           <td>
             <el-link type="primary" :href="tender.src" style="font-size: 24px">招标书</el-link>
           </td>
@@ -85,7 +86,8 @@
           win_id: null,
           start_time: '',
           end_time: '',
-          t_title: ''
+          t_title: '',
+          reason: ""
         }
       }
     },
