@@ -152,6 +152,7 @@
         this.$refs[user].validate(async (valid) => {
           if (valid) {
             let result = await reqRegister(this.user);
+            console.log(result);
             if (result.code === 200) {
               this.$message({
                 message: "注册成功！",
@@ -159,8 +160,7 @@
               });
               this.$router.replace("/My/Login");
             } else {
-
-              this.$message.error("哎呀，出错啦！");
+              this.$message.error(result.data);
             }
           }
         });

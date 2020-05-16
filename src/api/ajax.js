@@ -41,7 +41,7 @@ export default function ajax(url, data = {}, type = 'GET', content = "applicatio
       resolve(response.data);
     }).catch(function (error) {
       //失败调用reject
-      reject(error);
+      resolve(error.response.data);
     })
   })
 }

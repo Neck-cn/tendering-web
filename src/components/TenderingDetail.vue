@@ -13,6 +13,7 @@
       <el-card v-if="tendering.status===2">
         <h1>中标企业信息</h1>
         <div>企业名：<span v-text="enterprise.name"/></div>
+        <div>中标原因：<span v-text="tendering.reason"/></div>
       </el-card>
       <el-card v-if="display > 1" style="margin-top: 20px">
         <h1>参与竞标公司</h1>
