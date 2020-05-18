@@ -37,6 +37,12 @@
       login(user) {
         this.$refs[user].validate(async (valid) => {
           if (valid) {
+            const loading = this.$loading({
+              lock: true,
+              text: 'Loading',
+              spinner: 'el-icon-loading',
+              background: 'rgba(0, 0, 0, 0.7)'
+            });
             let time = new Date().getTime();
             // console.log(time);
             const fun_aes = require("../api/aes.js");
@@ -65,7 +71,7 @@
             } else {
               this.$message.error("哎呀，出错了！");
             }
-
+            loading.close();
           }
         });
       },
