@@ -151,6 +151,12 @@
       }, register(user) {
         this.$refs[user].validate(async (valid) => {
           if (valid) {
+            const loading = this.$loading({
+              lock: true,
+              text: 'Loading',
+              spinner: 'el-icon-loading',
+              background: 'rgba(0, 0, 0, 0.7)'
+            });
             let result = await reqRegister(this.user);
             console.log(result);
             if (result.code === 200) {
@@ -162,6 +168,7 @@
             } else {
               this.$message.error(result.data);
             }
+            loading.close();
           }
         });
       },
