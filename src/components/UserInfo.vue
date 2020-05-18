@@ -144,6 +144,8 @@
                 message: "修改成功！",
               });
               this.user = this.tempUser;
+              global.user=this.user;
+              window.sessionStorage.setItem('user', JSON.stringify(this.user));
               this.dialogFormVisible = false;
             } else {
               this.$message.error("哎呀，出错啦！");
